@@ -2,7 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-contract Ecommarce {
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+
+contract Ecommarce is ERC721URIStorage{
 
   struct Product {
     string title;
@@ -10,9 +13,10 @@ contract Ecommarce {
     uint price;
     uint productId;
     uint stocks;    // How many products has stocked
-    address buyer;
+    uint deliveryDays;    // Initial time for reach the product
+    address payable buyer;
     address payable seller;
-    bool delevered;  
+    bool delevered;
   }
 
   mapping(address=>mapping(uint => uint)) public productsNumber;   // mapping(address=>mapping(id=>no. of product)) ie. no[address][id]=numbers
@@ -21,7 +25,10 @@ contract Ecommarce {
 
   mapping(uint => address) public customers;
 
-  uint public deliveryDays;   // How many days need to delevered the product
+  mapping(uint => bool) public cancelOrder;   // Takes the productId and returns if the product is canceled or not
+
+  uint public dayRemain;   // How many days need to delevered the product
+
   uint public listPrice;    // Listing price of a product into the market
   uint count = 1;
   Product[] public products;
@@ -29,14 +36,16 @@ contract Ecommarce {
 
   bool destroyed = false;
 
-  constructor() {
+  constructor() ERC721("MyToken", "MTK") {
     manager = payable(msg.sender);
     listPrice = 0.01 ether;
+    // day = block.timestamp + 7 days;
   }
 
-  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks) public {
+  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks, uint _deliveryDays) public {
 
     require(_price > 0, "Price should be greater then zero");
+    require(msg.value == listPrice * _stocks, "Please pay the exact price");
     Product memory tempProduct;
     tempProduct.title = _title;
     tempProduct.desc = _desc;
@@ -44,25 +53,42 @@ contract Ecommarce {
     tempProduct.stocks = _stocks;
     tempProduct.seller = payable(msg.sender);
     tempProduct.productId = count;
+    tempProduct.deliveryDays = _deliveryDays;
     products.push(tempProduct);
     count++;
-  
+
   }
 
-  function buy(uint _productId, string memory _deliveryAddress, uint _numberOfProducts) public payable {
+  function buy(uint _productId, string memory _deliveryAddress, uint _numberOfProducts) payable public {
+
+    // uint Price = products[_productId-1].price + listPrice;
 
     require(products[_productId-1].price == msg.value, "Please  pay the exact price");
     require(products[_productId-1].seller != msg.sender, "Seller not be the buyer");
     require(_numberOfProducts > 0, "Please select how many products you want to buy");
     require(products[_productId-1].stocks >= _numberOfProducts, "You reach the product's stock limit");
-    products[_productId-1].buyer = msg.sender;
+    products[_productId-1].buyer = payable(msg.sender);
     deliveryLocation[msg.sender] = _deliveryAddress;
     customers[_productId] = msg.sender;
     productsNumber[msg.sender][_productId] = _numberOfProducts;
+    dayRemain = block.timestamp + 7 days;
+
+    // payable(address(this)).transfer(products[_productId-1].price);
 
   }
 
-  function delivery() public {
+  function OrderCancel(uint _productId) public {
+
+    require(products[_productId-1].seller != msg.sender, "Seller can't cancell the ordered product");
+    payable(products[_productId-1].buyer).transfer(products[_productId-1].price);
+
+  }
+
+  function delivery(uint _productId) public {
+
+    require(products[_productId-1].buyer == payable(msg.sender), "Only buyer can call this");
+    products[_productId-1].delevered = true;
+    (products[_productId-1].buyer).transfer(products[_productId-1].price);
 
   }
 
