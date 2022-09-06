@@ -13,7 +13,8 @@ contract Ecommarce is ERC721URIStorage{
     uint price;
     uint productId;
     uint stocks;    // How many products has stocked
-    uint deliveryDays;    // Initial time for reach the product
+    uint deliveryStart;
+    uint deliveryEnd;
     address payable buyer;
     address payable seller;
     bool delevered;
@@ -23,14 +24,15 @@ contract Ecommarce is ERC721URIStorage{
 
   mapping(address => string) public deliveryLocation;    // where the item should delivered
 
-  mapping(uint => address) public customers;
+  // mapping(uint => address) public customers;
 
-  // mapping(uint => bool) public cancelOrder;   // Takes the productId and returns if the product is canceled or not
+  address[] public customers;
 
-  // mapping()
+  uint public endAt;    // End day
+
+  uint public buyId;
 
 
-  uint public dayRemain;   // How many days need to delevered the product
 
   uint public listPrice;    // Listing price of a product into the market
   uint count = 1;
@@ -42,10 +44,10 @@ contract Ecommarce is ERC721URIStorage{
   constructor() ERC721("MyToken", "MTK") {
     manager = payable(msg.sender);
     listPrice = 2 ether;
-    // day = block.timestamp + 7 days;
+    endAt = 7 days;
   }
 
-  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks, uint _deliveryDays) payable public {
+  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks) payable public {
 
     require(_price > 0, "Price should be greater then zero");
     require(msg.value == listPrice * _stocks, "Please pay the exact price");
@@ -56,7 +58,8 @@ contract Ecommarce is ERC721URIStorage{
     tempProduct.stocks = _stocks;
     tempProduct.seller = payable(msg.sender);
     tempProduct.productId = count;
-    tempProduct.deliveryDays = _deliveryDays;
+    tempProduct.deliveryStart = block.timestamp;
+    tempProduct.deliveryEnd = block.timestamp + endAt;
     products.push(tempProduct);
     count++;
 
@@ -64,20 +67,20 @@ contract Ecommarce is ERC721URIStorage{
 
   function buy(uint _productId, string memory _deliveryAddress, uint _numberOfProducts) payable public {
 
-    // uint Price = products[_productId-1].price + listPrice;
-
     require(products[_productId-1].price * _numberOfProducts == msg.value, "Please  pay the exact price");
     require(products[_productId-1].seller != msg.sender, "Seller not be the buyer");
     require(_numberOfProducts > 0, "Please select how many products you want to buy");
     require(_numberOfProducts <= products[_productId-1].stocks, "You reach the product's stock limit");
     products[_productId-1].buyer = payable(msg.sender);
     deliveryLocation[msg.sender] = _deliveryAddress;
-    customers[_productId] = msg.sender;
+    // customers[buyId] = msg.sender;
+
+    customers.push(products[_productId-1].buyer);
+    buyId++;
+
     productsNumber[msg.sender][_productId] = _numberOfProducts;
-    // dayRemain = block.timestamp + 7 days;
     products[_productId-1].stocks -= _numberOfProducts; 
 
-    // payable(address(this)).transfer(products[_productId-1].price);
 
   }
 
@@ -91,6 +94,7 @@ contract Ecommarce is ERC721URIStorage{
     payable(products[_productId-1].buyer).transfer(products[_productId-1].price);
     products[_productId-1].stocks += productsNumber[msg.sender][_productId];
 
+
   }
 
   function delivery(uint _productId) payable public {
@@ -102,6 +106,15 @@ contract Ecommarce is ERC721URIStorage{
   }
 
   
+  function updateDeliveryDays(uint _day) public {
+    endAt = _day;
+  }
 
+  function showAllcustomers() public view returns(address[] memory){
+    return customers;
+  }
+
+  function withdrawFund() public {
+  }
 
 }
