@@ -27,6 +27,9 @@ contract Ecommarce is ERC721URIStorage{
 
   mapping(uint => bool) public cancelOrder;   // Takes the productId and returns if the product is canceled or not
 
+  // mapping()
+
+
   uint public dayRemain;   // How many days need to delevered the product
 
   uint public listPrice;    // Listing price of a product into the market
@@ -38,11 +41,11 @@ contract Ecommarce is ERC721URIStorage{
 
   constructor() ERC721("MyToken", "MTK") {
     manager = payable(msg.sender);
-    listPrice = 0.01 ether;
+    listPrice = 2 ether;
     // day = block.timestamp + 7 days;
   }
 
-  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks, uint _deliveryDays) public {
+  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks, uint _deliveryDays) payable public {
 
     require(_price > 0, "Price should be greater then zero");
     require(msg.value == listPrice * _stocks, "Please pay the exact price");
@@ -63,34 +66,42 @@ contract Ecommarce is ERC721URIStorage{
 
     // uint Price = products[_productId-1].price + listPrice;
 
-    require(products[_productId-1].price == msg.value, "Please  pay the exact price");
+    require(products[_productId-1].price * _numberOfProducts == msg.value, "Please  pay the exact price");
     require(products[_productId-1].seller != msg.sender, "Seller not be the buyer");
     require(_numberOfProducts > 0, "Please select how many products you want to buy");
-    require(products[_productId-1].stocks >= _numberOfProducts, "You reach the product's stock limit");
+    require(_numberOfProducts < products[_productId-1].stocks, "You reach the product's stock limit");
     products[_productId-1].buyer = payable(msg.sender);
     deliveryLocation[msg.sender] = _deliveryAddress;
     customers[_productId] = msg.sender;
     productsNumber[msg.sender][_productId] = _numberOfProducts;
-    dayRemain = block.timestamp + 7 days;
+    // dayRemain = block.timestamp + 7 days;
+    products[_productId-1].stocks -= _numberOfProducts; 
 
     // payable(address(this)).transfer(products[_productId-1].price);
 
+  }
+
+  function showStockOfProduct(uint _productId) public view returns(uint) {
+    return products[_productId-1].stocks;
   }
 
   function OrderCancel(uint _productId) public {
 
     require(products[_productId-1].seller != msg.sender, "Seller can't cancell the ordered product");
     payable(products[_productId-1].buyer).transfer(products[_productId-1].price);
+    products[_productId-1].stocks += productsNumber[msg.sender][_productId];
 
   }
 
-  function delivery(uint _productId) public {
+  function delivery(uint _productId) payable public {
 
-    require(products[_productId-1].buyer == payable(msg.sender), "Only buyer can call this");
+    require(products[_productId-1].seller != msg.sender, "Only buyer can call this");
     products[_productId-1].delevered = true;
-    (products[_productId-1].buyer).transfer(products[_productId-1].price);
+    (products[_productId-1].seller).transfer(products[_productId-1].price);
 
   }
+
+  
 
 
 }
