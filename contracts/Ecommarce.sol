@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract Ecommarce is ERC721URIStorage{
+contract Ecommarce{
 
   struct Product {
     string title;
@@ -15,7 +15,7 @@ contract Ecommarce is ERC721URIStorage{
     uint stocks;    // How many products has stocked
     uint deliveryStart;
     uint deliveryEnd;
-    address payable buyer;
+    address[] buyer;
     address payable seller;
     bool delevered;
   }
@@ -24,8 +24,6 @@ contract Ecommarce is ERC721URIStorage{
 
   mapping(address => string) public deliveryLocation;    // where the item should delivered
 
-  // mapping(uint => address) public customers;
-
   address[] public customers;
 
   uint public endAt;    // End day
@@ -33,15 +31,17 @@ contract Ecommarce is ERC721URIStorage{
   uint public buyId;
 
 
-
   uint public listPrice;    // Listing price of a product into the market
   uint count = 1;
   Product[] public products;
+
+  Product[] public myProducts;
+
   address payable public manager;
 
   bool destroyed = false;
 
-  constructor() ERC721("MyToken", "MTK") {
+  constructor(){
     manager = payable(msg.sender);
     listPrice = 2 ether;
     endAt = 7 days;
@@ -71,11 +71,10 @@ contract Ecommarce is ERC721URIStorage{
     require(products[_productId-1].seller != msg.sender, "Seller not be the buyer");
     require(_numberOfProducts > 0, "Please select how many products you want to buy");
     require(_numberOfProducts <= products[_productId-1].stocks, "You reach the product's stock limit");
-    products[_productId-1].buyer = payable(msg.sender);
+    products[_productId-1].buyer.push(payable(msg.sender));
     deliveryLocation[msg.sender] = _deliveryAddress;
-    // customers[buyId] = msg.sender;
 
-    customers.push(products[_productId-1].buyer);
+    customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
     buyId++;
 
     productsNumber[msg.sender][_productId] = _numberOfProducts;
@@ -85,13 +84,15 @@ contract Ecommarce is ERC721URIStorage{
   }
 
   function showStockOfProduct(uint _productId) public view returns(uint) {
+    require(msg.sender == products[_productId-1].seller, "Only seller can call this");
     return products[_productId-1].stocks;
   }
 
-  function OrderCancel(uint _productId) public {
+  function OrderCancel(uint _productId, address payable _buyer) public {
 
     require(products[_productId-1].seller != msg.sender, "Seller can't cancell the ordered product");
-    payable(products[_productId-1].buyer).transfer(products[_productId-1].price);
+
+    payable(_buyer).transfer(products[_productId-1].price);
     products[_productId-1].stocks += productsNumber[msg.sender][_productId];
 
 
@@ -107,6 +108,7 @@ contract Ecommarce is ERC721URIStorage{
 
   
   function updateDeliveryDays(uint _day) public {
+    require(msg.sender == manager, "Only manager can call this function");
     endAt = _day;
   }
 
@@ -114,7 +116,13 @@ contract Ecommarce is ERC721URIStorage{
     return customers;
   }
 
-  function withdrawFund() public {
+  function showMyProducts(address _address) public{
+    for(uint i = 0; i < products.length; i++){
+      for(uint j = 0; j < products[i].buyer.length; j++){
+        if(products[i].buyer[j] == _address){
+          myProducts.push(products[i]);
+        }
+      }
+    }
   }
-
 }
