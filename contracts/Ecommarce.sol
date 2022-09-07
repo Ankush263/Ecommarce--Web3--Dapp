@@ -21,8 +21,6 @@ contract Ecommarce{
 
   mapping(address => string) public deliveryLocation;    // where the item should delivered
 
-  // address[] public customers;
-
   mapping(address => address[]) public myCustomers;
 
   uint public endAt;    // End day
@@ -39,7 +37,7 @@ contract Ecommarce{
 
   constructor(){
     manager = payable(msg.sender);
-    listPrice = 2 ether;
+    listPrice = 0.01 ether;
     endAt = 7 days;
   }
 
