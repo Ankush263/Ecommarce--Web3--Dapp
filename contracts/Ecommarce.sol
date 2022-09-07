@@ -27,9 +27,6 @@ contract Ecommarce{
 
   uint public endAt;    // End day
 
-  uint public buyId;
-
-
   uint public listPrice;    // Listing price of a product into the market
   uint count = 1;
   Product[] public products;
@@ -75,7 +72,6 @@ contract Ecommarce{
 
     myCustomers[products[_productId-1].seller] = products[_productId-1].buyer;
     // customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
-    buyId++;
 
     productsNumber[msg.sender][_productId] = _numberOfProducts;
     products[_productId-1].stocks -= _numberOfProducts; 
