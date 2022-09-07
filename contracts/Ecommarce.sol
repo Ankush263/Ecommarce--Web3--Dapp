@@ -2,9 +2,6 @@
 
 pragma solidity ^0.8.0;
 
-// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-
 contract Ecommarce{
 
   struct Product {
@@ -24,7 +21,9 @@ contract Ecommarce{
 
   mapping(address => string) public deliveryLocation;    // where the item should delivered
 
-  address[] public customers;
+  // address[] public customers;
+
+  mapping(address => address[]) public myCustomers;
 
   uint public endAt;    // End day
 
@@ -74,7 +73,8 @@ contract Ecommarce{
     products[_productId-1].buyer.push(payable(msg.sender));
     deliveryLocation[msg.sender] = _deliveryAddress;
 
-    customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
+    myCustomers[products[_productId-1].seller] = products[_productId-1].buyer;
+    // customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
     buyId++;
 
     productsNumber[msg.sender][_productId] = _numberOfProducts;
@@ -83,10 +83,11 @@ contract Ecommarce{
 
   }
 
+
   function showStockOfProduct(uint _productId) public view returns(uint) {
-    require(msg.sender == products[_productId-1].seller, "Only seller can call this");
     return products[_productId-1].stocks;
   }
+
 
   function OrderCancel(uint _productId, address payable _buyer) public {
 
@@ -94,7 +95,26 @@ contract Ecommarce{
 
     payable(_buyer).transfer(products[_productId-1].price);
     products[_productId-1].stocks += productsNumber[msg.sender][_productId];
+    //we have to remove the customer
+    // we have to delete a certain address from buyer's array
+    // delete(_buyer);
+    // mapping(address => address[]) public myCustomers;
+    // mapping(seller => buyer[])
 
+    // address sellerAddress = products[_productId-1].seller;
+    // address[] memory buyerArray = myCustomers[products[_productId-1].seller];
+    
+    for(uint i = 0; i < myCustomers[products[_productId-1].seller].length; i++) {
+      if(_buyer == myCustomers[products[_productId-1].seller][i]){
+        // delete(buyerArray[i]);
+        require(i < myCustomers[products[_productId-1].seller].length);
+        for(uint j = i; j < myCustomers[products[_productId-1].seller].length-1; j++) {
+          myCustomers[products[_productId-1].seller][j] = myCustomers[products[_productId-1].seller][j+1];
+        }
+        // buyerArray.pop();
+        myCustomers[products[_productId-1].seller].pop();
+      }
+    }
 
   }
 
@@ -112,11 +132,8 @@ contract Ecommarce{
     endAt = _day;
   }
 
-  function showAllcustomers() public view returns(address[] memory){
-    return customers;
-  }
 
-  function showMyProducts(address _address) public{
+  function showMyProducts(address _address) public{ //? for seller or buyer? => buyer
     for(uint i = 0; i < products.length; i++){
       for(uint j = 0; j < products[i].buyer.length; j++){
         if(products[i].buyer[j] == _address){
@@ -125,4 +142,5 @@ contract Ecommarce{
       }
     }
   }
+
 }
