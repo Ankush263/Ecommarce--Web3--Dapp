@@ -5,7 +5,14 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'background': "#373B44",
+        'background': "-webkit-linear-gradient(to right, #4286f4, #373B44)",
+        'background': "linear-gradient(to right, #4286f4, #373B44)"
+
+      }
+    },
   },
   plugins: [],
 }
