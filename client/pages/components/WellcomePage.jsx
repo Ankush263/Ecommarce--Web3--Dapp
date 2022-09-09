@@ -1,12 +1,13 @@
 import React from 'react'
 import Button from '@mui/material/Button';
 import '../../tailwind.config'
+import Link from 'next/link';
 
 
 function WellcomePage() {
 
   const styles = {
-    screen: `bg-background w-screen h-screen`,
+    screen: `w-screen h-screen`,
     second: `bg-[url('/images/cart.png')] h-screen w-screen flex flex-col justify-center items-center bg-no-repeat`,
     wallet: `bg-slate-300/[.2] shadow-2xl border-white-900/75 w-60 h-40 rounded-3xl flex flex-col justify-center items-center mb-10`,
     pages: `bg-slate-300/[.2] shadow-2xl border-white-900/75 w-6/12 h-60 rounded-3xl flex gap-20 justify-center items-center`,
@@ -24,14 +25,18 @@ function WellcomePage() {
             </Button>
           </div>
           <div className={styles.pages}>
-            <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
-              Go For Business
-              <img src="/images/car_loading.PNG" className='w-20' />
-            </Button>
-            <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
-              Let's Shopping
-              <img src="/images/shopping.PNG" className='w-20' />
-            </Button>
+            <Link href="/components/Business/ListProduct">
+              <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
+                Go For Business
+                <img src="/images/car_loading.PNG" className='w-20' />
+              </Button>
+            </Link>
+            <Link href="/components/Marketplace/HomePage">
+              <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
+                Let's Shopping
+                <img src="/images/shopping.PNG" className='w-20' />
+              </Button>
+            </Link>
           </div>
       </div>
     </div>
