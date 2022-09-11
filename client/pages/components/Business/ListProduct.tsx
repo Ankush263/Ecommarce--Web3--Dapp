@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import React from 'react'
-import NavBar from '../NavBar'
+import NavBar from './NavBarBusiness'
 
 function ListProduct() {
 
@@ -45,7 +45,7 @@ function ListProduct() {
                   <input type="number" className={styles.input} />
                 </div>
                 <div className={styles.subBox}>
-                  <Button variant="contained" className='rounded-xl mt-5 font-bold text-black'>List Product</Button>
+                  <Button variant="contained" className='rounded-3xl mt-5 font-bold text-black'>List Product</Button>
                 </div>
               </div>
             </div>
