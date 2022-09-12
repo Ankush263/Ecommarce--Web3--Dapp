@@ -5,7 +5,7 @@ import NavBar from './NavBarBusiness'
 function ListProduct() {
 
   const styles = {
-    space: `bg-slate-300/[.2] shadow-2xl border-stone-900 w-11/12 min-h-screen rounded-3xl flex flex-col justify-center items-center mb-10 border-8 p-5`,
+    space: `bg-slate-300/[.2] shadow-2xl border-stone-900 w-11/12 min-h-screen rounded-3xl flex flex-col justify-center items-center mb-10 p-5`,
     left: `w-6/12 h-5/6 bg-slate-300/[.2] shadow-2xl border-stone-900 rounded-3xl mt-10 flex flex-col items-start pb-20 pt-14 pl-10 pr-10`,
     right: `w-4/12 h-5/6 bg-slate-300/[.2] shadow-2xl border-stone-900 rounded-3xl mt-10 flex justify-center items-center`,
     text: `text-2xl font-black p-3`,
