@@ -1,18 +1,18 @@
-import { ethers } from "hardhat";
+// import { hre } from 'hardhat'
+import ethers from "@nomiclabs/hardhat-ethers"
+const hre = require("hardhat")
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  const MarketPlace = await hre.ethers.getContractFactory("Ecommarce");
+  const marketPlace = await MarketPlace.deploy();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  await marketPlace.deployed();
 
-  await lock.deployed();
+  console.log(`MarketPlace deployed to ${marketPlace.address}`);
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  // console.log(ethers)
+  // console.log(hre.ethers)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
@@ -21,3 +21,4 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+//0x5FbDB2315678afecb367f032d93F642f64180aa3
