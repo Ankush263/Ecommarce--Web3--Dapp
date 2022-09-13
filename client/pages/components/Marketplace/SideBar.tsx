@@ -1,8 +1,40 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PersonIcon from '@mui/icons-material/Person';
+import { ethers } from 'ethers';
+import artifacts from "../../../utils/Ecommarce.json";
 
 function SideBar() {
+
+  const deployedAddress: string = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const ABI: any = artifacts.abi
+
+  const [walletAddress, getWalletAddress] = useState('')
+  const [walletBalance, getWalletBalance] = useState('')
+
+  const getAddress = async () => {
+    try {
+      if(typeof window != 'undefined') {
+        const provider: any = new ethers.providers.Web3Provider(window.ethereum)
+        const signer: any = await provider.getSigner()
+        const Address: string = await signer.getAddress()
+        const contract: any = await new ethers.Contract(Address, ABI, signer)
+        const Balance = await provider.getBalance(Address)
+        const balance = await ethers.utils.formatEther(Balance)
+        const addr = Address.slice(0, 5)+ "..." + Address.slice(38, 42)
+        const bal = balance.slice(0, 8)
+        getWalletAddress(addr)
+        getWalletBalance(bal)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getAddress()
+  }, [])
+
 
   const styles = {
     sidebar: `h-screen flex flex-col justify-start items-center gap-10`,
@@ -22,9 +54,9 @@ function SideBar() {
             <img src="/images/Metamask.png" />
           </Link>
           <div className={styles.wallet}>
-            <span className={styles.accountInfo}>0x930....1938</span>
+            <span className={styles.accountInfo}>{walletAddress}</span>
             <span className={styles.accountInfo}>
-              0.0928977
+              {walletBalance}
               <img src="/images/eth.png" className='w-5' />
             </span>
           </div>
@@ -33,11 +65,11 @@ function SideBar() {
       <div className={styles.bottom}>
         <div className={styles.sideWallet}>
           <img src="/images/Metamask.png" className='w-20' />
-          <span>930x....9302</span>
+          <span>{walletAddress}</span>
         </div>
         <div className={styles.sideWallet}>
           <img src="/images/eth.png" className='w-8' />
-          <span>0.983923</span>
+          <span>{walletBalance}</span>
         </div>
         <div className={styles.sideWallet}>
           <PersonIcon fontSize='large' />
