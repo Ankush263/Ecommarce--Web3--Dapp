@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import AppsIcon from '@mui/icons-material/Apps';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { ethers } from 'ethers';
 
 function NavBarMarket() {
+
+  const [walletBalance, getWalletBalance] = useState('')
+
+  const getAddress = async () => {
+    try {
+      if(typeof window != 'undefined') {
+        const provider: any = new ethers.providers.Web3Provider(window.ethereum)
+        const signer: any = await provider.getSigner()
+        const Address: string = await signer.getAddress()
+        const Balance = await provider.getBalance(Address)
+        const balance = await ethers.utils.formatEther(Balance)
+        const bal = balance.slice(0, 8)
+        getWalletBalance(bal)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getAddress()
+  }, [])
+
 
   const styles = {
     navbar: `h-60 flex flex-col`,
@@ -45,7 +69,7 @@ function NavBarMarket() {
           </Link>
           <div className={styles.basket}>
             <AccountBalanceWalletIcon />
-            <span>0.977823</span>
+            <span>{walletBalance}</span>
           </div>
           <div className={styles.basket}>
             <ShoppingBasketIcon />
