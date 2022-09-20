@@ -1,10 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import '../../tailwind.config'
 import Link from 'next/link';
 
 
 function WellcomePage() {
+
+  const [logedIn, setLogedIn] = useState(false)
+
+
+
+  // Connect Wallet functionality-------------------------------------------
+
+  const Connect = async () => {
+    try {
+      if (typeof window.ethereum !== 'undefined') {
+        ethereum.request({ method: 'eth_requestAccounts' });
+      }
+      setLogedIn(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   const styles = {
     screen: `w-screen h-screen flex justify-center items-center`,
@@ -19,20 +37,20 @@ function WellcomePage() {
       <div className={styles.second}>
         <div className={styles.wallet}>
           <span className='font-bold text-slate-50 text-lg'>Connect to the Metamask</span>
-            <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
+            <Button variant="contained" onClick={Connect} className='bg-gradient-to-r from-sky-500 to-indigo-500'>
               <img src="/images/Metamask.png" className='w-10' />
-              Connect
+              {logedIn ? <span>Connected</span> : <span>Connect</span>}
             </Button>
           </div>
           <div className={styles.pages}>
             <Link href="/components/Business/ListProduct">
-              <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
+              <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500' disabled={!logedIn}>
                 Go For Business
                 <img src="/images/car_loading.PNG" className='w-20' />
               </Button>
             </Link>
             <Link href="/components/Marketplace/HomePage">
-              <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500'>
+              <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500' disabled={!logedIn}>
                 Let's Shopping
                 <img src="/images/shopping.PNG" className='w-20' />
               </Button>
