@@ -1,8 +1,33 @@
 import { Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
+import { uploadFileToIPFS } from '../../pinata'
 import NavBar from './NavBarBusiness'
 
 function ListProduct() {
+
+  const [uploadImg, setUploadImg] = useState('')
+
+  const list = async () => {
+    try {
+      console.log(uploadImg)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const uploadFile = async (e: any) => {
+    let file = e.target.files[0]
+    try {
+      const response = await uploadFileToIPFS(file)
+
+      if(response.success === true) {
+        setUploadImg(response.pinataURL)
+        console.log(response.pinataURL)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const styles = {
     space: `bg-slate-300/[.2] shadow-2xl border-stone-900 w-11/12 min-h-screen rounded-3xl flex flex-col justify-center items-center mb-10 p-5`,
@@ -30,7 +55,7 @@ function ListProduct() {
               <div className={styles.box}>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Upload Image</span>
-                  <input type="file" className='' />
+                  <input type="file" onChange={uploadFile} className='' />
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Title: </span>
@@ -38,19 +63,24 @@ function ListProduct() {
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Description: </span>
-                  <textarea type="text" className={styles.input} cols="40" rows="5"></textarea>
+                  <textarea className={styles.input} cols={40} rows={5}></textarea>
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Stocks: </span>
                   <input type="number" className={styles.input} />
                 </div>
                 <div className={styles.subBox}>
-                  <Button variant="contained" className='rounded-3xl mt-5 font-bold text-black'>List Product</Button>
+                  <Button variant="contained" onClick={list} className='rounded-3xl mt-5 font-bold text-black'>List Product</Button>
                 </div>
               </div>
             </div>
             <div className={styles.right}>
-              <p className='text-orange-700 text-xl font-bold font-sans'>Uploaded image will be shown here!!!</p>
+              {
+                uploadImg ? 
+                <img src={`${uploadImg}`} className='rounded-xl w-max h-max max-w-full max-h-full'/> : 
+                <p className='text-orange-700 text-xl font-bold font-sans'>Uploaded image will be shown here!!!</p>
+              }
+              
               {/* <img src='/images/ecommerce-logo.png' className='border-8'/> */}
             </div>
           </div>
