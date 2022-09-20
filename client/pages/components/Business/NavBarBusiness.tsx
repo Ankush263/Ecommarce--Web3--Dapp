@@ -8,7 +8,7 @@ function NavBar() {
 
   const styles = {
     nav: `flex justify-center mt-5`,
-    elements: `bg-slate-300/[.2] shadow-2xl border-white-900/75 w-11/12 h-30 rounded-3xl flex justify-around items-center mb-10 border-stone-900`,
+    elements: `bg-slate-300/[.2] shadow-2xl border-white-900/75 w-11/12 h-30 rounded-3xl flex justify-around items-center mb-10 border-stone-900 cursor-pointer`,
   }
 
 
@@ -31,9 +31,11 @@ function NavBar() {
           </div>
         </Link>
         <div className="flex w-5/12 justify-end">
-          <div className='ml-5 w-3/12'>
-            <ColorButton variant="outlined" className='font-bold'>My Products</ColorButton>
-          </div>
+          <Link href="//components/Business/MyProducts">
+            <div className='ml-5 w-3/12'>
+              <ColorButton variant="outlined" className='font-bold'>My Products</ColorButton>
+            </div>
+          </Link>
           
         </div>
       </div>
