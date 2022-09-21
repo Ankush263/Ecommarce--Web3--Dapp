@@ -13,10 +13,6 @@ function ListProduct() {
   //0x525f07455ff2AbD2f261646B540A0b632480f610
   const [uploadImg, setUploadImg] = useState('')
   const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0 })
-  const [title, setTitle] = useState('')
-  const [desc, setDesc] = useState('')
-  const [price, setPrice] = useState(0)
-  const [stock, setStock] = useState(0)
   const [disabled, setDisabled] = useState(false)
 
   const uploadFile = async (e: any) => {
@@ -61,25 +57,36 @@ function ListProduct() {
 
   const list = async (e: any) => {
 
-    // setDisabled(true)
-    // e.preventDefault()
+    setDisabled(true)
+    e.preventDefault()
 
     try {
       
-      // const metadataURL = await uploadMetadataToIPFS()
+      const metadataURL = await uploadMetadataToIPFS()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-      // let price = productDesc.price
 
       const price = ethers.utils.parseUnits(productDesc.price.toString(), 'ether')
 
-      console.log(typeof price)
       let listingPrice = await contract.listPrice()
       listingPrice = listingPrice.toString()
-      console.log("price: ", price, "listingPrice: ", listingPrice)
-      
+      let transaction = await contract.registerProduct(
+        productDesc.title, 
+        productDesc.desc,
+        price,
+        productDesc.stock,
+        { value: listingPrice }
+      )
+      await transaction.wait()
+      alert("Successfully list your product!!!")
+      setUploadImg('')
+      setProductDesc({ title: '', desc: '', price: 0, stock: 0 })
+
+      // const price = ethers.utils.parseUnits(productDesc.price, 'ether')
+
+      // console.log(typeof price)
 
     } catch (error) {
       alert("Upload Error: "+error)
@@ -130,8 +137,8 @@ function ListProduct() {
                   <span className={styles.text}>Title: </span>
                   <input 
                     type="text" 
-                    onChange={(e) => setTitle(e.target.value)} 
-                    value={title} 
+                    onChange={(e) => setProductDesc({ ...productDesc, title: e.target.value })} 
+                    value={productDesc.title} 
                     className={styles.input} 
                   />
                 </div>
@@ -141,8 +148,8 @@ function ListProduct() {
                     className={styles.input} 
                     cols={40} 
                     rows={5} 
-                    onChange={(e) => setDesc(e.target.value)} 
-                    value={desc}
+                    onChange={(e) => setProductDesc({ ...productDesc, desc: e.target.value })} 
+                    value={productDesc.desc}
                     >
                   </textarea>
                 </div>
@@ -151,8 +158,8 @@ function ListProduct() {
                   <input 
                     type="number" 
                     className={styles.input} 
-                    onChange={(e: any) => setStock(e.target.value)}
-                    value={stock}
+                    onChange={(e: any) => setProductDesc({ ...productDesc, stock: e.target.value })}
+                    value={productDesc.stock}
                   />
                 </div>
                 <div className={styles.subBox}>
@@ -160,8 +167,8 @@ function ListProduct() {
                   <input 
                     type="number" 
                     className={styles.input} 
-                    onChange={(e: any) => setPrice(e.target.value)}
-                    value={price}
+                    onChange={(e: any) => setProductDesc({ ...productDesc, price: e.target.value })}
+                    value={productDesc.price}
                   />
                 </div>
                 <div className={styles.subBox}>
