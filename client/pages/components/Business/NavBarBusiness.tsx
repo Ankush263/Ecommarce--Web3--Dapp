@@ -8,7 +8,7 @@ function NavBar() {
 
   const styles = {
     nav: `flex justify-center mt-5`,
-    elements: `bg-slate-300/[.2] shadow-2xl border-white-900/75 w-11/12 h-30 rounded-3xl flex justify-around items-center mb-10 border-stone-900 cursor-pointer`,
+    elements: `bg-slate-300/[.5] shadow-2xl border-white-900/75 w-11/12 h-30 rounded-3xl flex justify-around items-center mb-10 border-stone-900 cursor-pointer`,
   }
 
 
