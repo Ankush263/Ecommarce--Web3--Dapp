@@ -1,19 +1,23 @@
 import { Button } from '@mui/material'
+import { ethers } from 'ethers'
 import React, { useState } from 'react'
-import { uploadFileToIPFS } from '../../pinata'
+import { uploadFileToIPFS, uploadJSONToIPFS } from '../../pinata'
 import NavBar from './NavBarBusiness'
+// import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
+import ABI from '../../../utils/Ecommarce.json'
 
 function ListProduct() {
 
-  const [uploadImg, setUploadImg] = useState('')
+  const deployAddress = "0x525f07455ff2AbD2f261646B540A0b632480f610"
 
-  const list = async () => {
-    try {
-      console.log(uploadImg)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //0x525f07455ff2AbD2f261646B540A0b632480f610
+  const [uploadImg, setUploadImg] = useState('')
+  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0 })
+  const [title, setTitle] = useState('')
+  const [desc, setDesc] = useState('')
+  const [price, setPrice] = useState(0)
+  const [stock, setStock] = useState(0)
+  const [disabled, setDisabled] = useState(false)
 
   const uploadFile = async (e: any) => {
     let file = e.target.files[0]
@@ -29,13 +33,68 @@ function ListProduct() {
     }
   }
 
+  const uploadMetadataToIPFS = async () => {
+
+    const { title, desc, price, stock } = productDesc
+
+    if(!title || !desc || !price || !stock || !uploadImg) {
+      return
+    }
+
+    const productJSON = {
+      title,
+      desc,
+      price,
+      stock,
+      image: uploadImg
+    }
+
+    try {
+      const response = await uploadJSONToIPFS(productJSON)
+      if(response.success === true) {
+        return response.pinataURL
+      }
+    } catch (error) {
+      console.log("Upload metadata to IPFS error: ", error)
+    }
+  }
+
+  const list = async (e: any) => {
+
+    // setDisabled(true)
+    // e.preventDefault()
+
+    try {
+      
+      // const metadataURL = await uploadMetadataToIPFS()
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const address = await signer.getAddress()
+      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+      // let price = productDesc.price
+
+      const price = ethers.utils.parseUnits(productDesc.price.toString(), 'ether')
+
+      console.log(typeof price)
+      let listingPrice = await contract.listPrice()
+      listingPrice = listingPrice.toString()
+      console.log("price: ", price, "listingPrice: ", listingPrice)
+      
+
+    } catch (error) {
+      alert("Upload Error: "+error)
+      console.log("List Error: ", error)
+    }
+    
+  }
+
   const styles = {
-    space: `bg-slate-300/[.2] shadow-2xl border-stone-900 w-11/12 min-h-screen rounded-3xl flex flex-col justify-center items-center mb-10 p-5`,
-    left: `w-6/12 h-5/6 bg-slate-300/[.2] shadow-2xl border-stone-900 rounded-3xl mt-10 flex flex-col items-start pb-20 pt-14 pl-10 pr-10`,
-    right: `w-4/12 h-5/6 bg-slate-300/[.2] shadow-2xl border-stone-900 rounded-3xl mt-10 flex justify-center items-center`,
-    text: `text-2xl font-black p-3`,
+    space: `bg-slate-300/[.3] shadow-2xl border-stone-900 w-11/12 min-h-screen rounded-3xl flex flex-col justify-center items-center mb-10 p-5`,
+    left: `w-6/12 h-5/6 bg-slate-300/[.3] shadow-2xl border-stone-900 rounded-3xl mt-10 flex flex-col items-start pb-20 pt-14 pl-10 pr-10`,
+    right: `w-4/12 h-5/6 bg-slate-300/[.2] shadow-2xl border-stone-900 rounded-3xl mt-10 flex justify-center items-center p-2`,
+    text: `text-md text-black p-2 font-semibold`,
     box: `ml-10 w-11/12 h-full flex flex-col justify-around`,
-    input: `text-black rounded-xl p-4 bg-slate-200/[.2] shadow-2xl border-stone-900`,
+    input: `text-black rounded-md p-1 bg-slate-200/[.8] shadow-3xl border-stone-900`,
     subBox: `flex flex-col`,
   }
 
@@ -47,41 +106,87 @@ function ListProduct() {
       <div className='flex flex-col justify-center items-center'>
         <div className={styles.space}>
           <span className='w-11/12 h-1/6 text-4xl font-black'>
-            <p className='ml-60 text-orange-700 font-serif'>Welcome to the Web3.0 Ecommerce Business</p>
-            <p className='ml-40 text-orange-700 font-serif'>Here you can list any products with 0.01 eth each</p>
+            <p 
+              className='ml-60 text-teal-900 font-serif'>
+                Welcome to the Web3.0 Ecommerce Business
+            </p>
+            <p 
+              className='ml-40 text-teal-900 font-serif'>
+                Here you can list any products with 0.01 eth each
+            </p>
           </span>
           <div className="w-11/12 h-screen flex justify-around">
             <div className={styles.left}>
               <div className={styles.box}>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Upload Image</span>
-                  <input type="file" onChange={uploadFile} className='' />
+                  <input 
+                    type="file" 
+                    onChange={uploadFile} 
+                    className='' 
+                  />
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Title: </span>
-                  <input type="text" className={styles.input} />
+                  <input 
+                    type="text" 
+                    onChange={(e) => setTitle(e.target.value)} 
+                    value={title} 
+                    className={styles.input} 
+                  />
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Description: </span>
-                  <textarea className={styles.input} cols={40} rows={5}></textarea>
+                  <textarea 
+                    className={styles.input} 
+                    cols={40} 
+                    rows={5} 
+                    onChange={(e) => setDesc(e.target.value)} 
+                    value={desc}
+                    >
+                  </textarea>
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Stocks: </span>
-                  <input type="number" className={styles.input} />
+                  <input 
+                    type="number" 
+                    className={styles.input} 
+                    onChange={(e: any) => setStock(e.target.value)}
+                    value={stock}
+                  />
                 </div>
                 <div className={styles.subBox}>
-                  <Button variant="contained" onClick={list} className='rounded-3xl mt-5 font-bold text-black'>List Product</Button>
+                  <span className={styles.text}>Price: </span>
+                  <input 
+                    type="number" 
+                    className={styles.input} 
+                    onChange={(e: any) => setPrice(e.target.value)}
+                    value={price}
+                  />
+                </div>
+                <div className={styles.subBox}>
+                  <Button 
+                    variant="contained" 
+                    onClick={list} 
+                    className='rounded-md mt-5 text-black bg-sky-500'
+                    disabled={disabled}
+                  >
+                    List Product
+                  </Button>
                 </div>
               </div>
             </div>
             <div className={styles.right}>
               {
                 uploadImg ? 
-                <img src={`${uploadImg}`} className='rounded-xl w-max h-max max-w-full max-h-full'/> : 
-                <p className='text-orange-700 text-xl font-bold font-sans'>Uploaded image will be shown here!!!</p>
+                <img src={`${uploadImg}`} 
+                  className='rounded-xl w-max h-max max-w-full max-h-full'
+                /> : 
+                <p 
+                  className='text-teal-900 text-xl font-bold font-sans'
+                  >Uploaded image will be shown here!!!
+                </p>
               }
-              
-              {/* <img src='/images/ecommerce-logo.png' className='border-8'/> */}
             </div>
           </div>
         </div>
