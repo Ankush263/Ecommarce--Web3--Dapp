@@ -1,5 +1,3 @@
-// const key = '31bfe577c5a048d484b8'
-// const secret = '537b02b64ba140d48c846a25e0636c330d28e96ca7085bcc7020896599875b16'
 const key = process.env.NEXT_PUBLIC_PINATA_KEY
 const secret = process.env.NEXT_PUBLIC_PINATA_SECRET
 
