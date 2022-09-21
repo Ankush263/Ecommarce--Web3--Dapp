@@ -15,7 +15,7 @@ function WellcomePage() {
   const Connect = async () => {
     try {
       if (typeof window.ethereum !== 'undefined') {
-        ethereum.request({ method: 'eth_requestAccounts' });
+        window.ethereum.request({ method: 'eth_requestAccounts' });
       }
       setLogedIn(true)
     } catch (error) {
