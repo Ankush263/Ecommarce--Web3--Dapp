@@ -3,16 +3,15 @@ import { ethers } from 'ethers'
 import React, { useState } from 'react'
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../pinata'
 import NavBar from './NavBarBusiness'
-// import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
-import ABI from '../../../utils/Ecommarce.json'
+import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
+// import ABI from '../../../utils/Ecommarce.json'
 
 function ListProduct() {
 
-  const deployAddress = "0x525f07455ff2AbD2f261646B540A0b632480f610"
+  const deployAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
 
-  //0x525f07455ff2AbD2f261646B540A0b632480f610
   const [uploadImg, setUploadImg] = useState('')
-  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0 })
+  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0, img: '' })
   const [disabled, setDisabled] = useState(false)
 
   const uploadFile = async (e: any) => {
@@ -31,9 +30,9 @@ function ListProduct() {
 
   const uploadMetadataToIPFS = async () => {
 
-    const { title, desc, price, stock } = productDesc
+    const { title, desc, price, stock, img } = productDesc
 
-    if(!title || !desc || !price || !stock || !uploadImg) {
+    if(!title || !desc || !price || !stock || !img || !uploadImg ) {
       return
     }
 
@@ -42,6 +41,7 @@ function ListProduct() {
       desc,
       price,
       stock,
+      img,
       image: uploadImg
     }
 
@@ -77,16 +77,16 @@ function ListProduct() {
         productDesc.desc,
         price,
         productDesc.stock,
+        uploadImg,
         { value: listingPrice }
       )
       await transaction.wait()
       alert("Successfully list your product!!!")
       setUploadImg('')
-      setProductDesc({ title: '', desc: '', price: 0, stock: 0 })
+      setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
+      setDisabled(false)
 
-      // const price = ethers.utils.parseUnits(productDesc.price, 'ether')
-
-      // console.log(typeof price)
+      // console.log(listingPrice)
 
     } catch (error) {
       alert("Upload Error: "+error)
