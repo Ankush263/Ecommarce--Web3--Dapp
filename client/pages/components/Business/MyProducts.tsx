@@ -1,8 +1,13 @@
 import React from 'react'
 import SideBar from '../Marketplace/SideBar'
 import NavBarBusiness from './NavBarBusiness'
+import Button from '@mui/material/Button';
+import ABI from '../../../utils/Ecommarce.json'
+import { ethers } from 'ethers'
 
 function MyProducts() {
+
+  
 
   const styles = {
     page: `border-8 w-screen h-screen flex`,
@@ -28,7 +33,7 @@ function MyProducts() {
       </div>
       <div className="row-span-2 col-span-5">
         <div className="border-8 h-full w-full">
-          My Products
+          
         </div>
       </div>
     </div>
