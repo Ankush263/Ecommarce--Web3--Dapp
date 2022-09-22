@@ -7,6 +7,7 @@ contract Ecommarce{
   struct Product {
     string title;
     string desc;
+    string img;
     uint price;
     uint productId;
     uint stocks;    // How many products has stocked
@@ -41,13 +42,14 @@ contract Ecommarce{
     endAt = 7 days;
   }
 
-  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks) payable public {
+  function registerProduct(string memory _title, string memory _desc, uint _price, uint _stocks, string memory _img) payable public {
 
     require(_price > 0, "Price should be greater then zero");
-    require(msg.value == listPrice * _stocks, "Please pay the exact price");
+    // require(msg.value == listPrice * _stocks, "Please pay the exact price");
     Product memory tempProduct;
     tempProduct.title = _title;
     tempProduct.desc = _desc;
+    tempProduct.img = _img;
     tempProduct.price = _price * (10 ** 18);
     tempProduct.stocks = _stocks;
     tempProduct.seller = payable(msg.sender);
@@ -109,6 +111,12 @@ contract Ecommarce{
         myCustomers[products[_productId-1].seller].pop();
       }
     }
+
+  }
+
+  function getAllProducts() view public returns(Product[] memory) {
+
+    return products;
 
   }
 
