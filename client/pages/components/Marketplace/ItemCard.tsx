@@ -1,6 +1,21 @@
+import { ethers } from 'ethers'
+import Link from 'next/link'
 import React from 'react'
 
 function ItemCard(props: any) {
+
+  const stocks = () => {
+    console.log((props.data.stocks).toString())
+  }
+
+  const data = {
+    img: props.data.img,
+    title: props.data.title,
+    desc: props.data.desc,
+    seller: props.data.seller,
+    stocks: props.data.stocks ? (props.data.stocks).toString() : props.data.stocks,
+    price: props.data.price
+  }
 
   const styles = {
     cardBox: `w-36 h-56 flex flex-col justify-between items-center`,
@@ -11,11 +26,19 @@ function ItemCard(props: any) {
   return (
     <div className={styles.cardBox}>
       <div className={styles.imgBox}>
-        <img src={props.data.img} className={styles.img} />
+        <Link 
+          href={{
+            pathname: `/components/Marketplace/Items/${props.data.tokenId}`,
+            query: data
+          }}
+        >
+          <img src={props.data.img} onClick={stocks} className={styles.img} />
+        </Link>
       </div>
       <span className='text-black text-sm font-semibold'>{props.data.title}</span>
-      <div className="flex justify-center items-center">
-        <span className='text-black text-sm font-semibold ml-5'>{props.data.price}</span>
+      <div className="w-full flex justify-center items-center">
+        <span className='text-black text-sm font-bold'>Stocks: {props.data.stocks ? (props.data.stocks).toString() : ""}</span>
+        <span className='text-black text-sm font-semibold ml-5'>{props.data.price / 10 ** 18}</span>
         <img src="/images/eth2.png" className='w-10 m-0 p-0' />
       </div>
     </div>
