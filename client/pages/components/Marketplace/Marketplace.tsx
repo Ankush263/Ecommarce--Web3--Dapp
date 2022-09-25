@@ -86,7 +86,7 @@ function Marketplace() {
   const [data, updateData] = useState(sampleData)
   const [dataFatched, updateDataFatched] = useState(false)
 
-  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const deployAddress = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
 
   const getAllData = async () => {
     
