@@ -5,7 +5,7 @@ import React from 'react'
 function ItemCard(props: any) {
 
   const stocks = () => {
-    console.log((props.data.stocks).toString())
+    console.log(props.data.productId)
   }
 
   const data = {
@@ -14,7 +14,8 @@ function ItemCard(props: any) {
     desc: props.data.desc,
     seller: props.data.seller,
     stocks: props.data.stocks ? (props.data.stocks).toString() : props.data.stocks,
-    price: props.data.price
+    price: props.data.price,
+    id: props.data.productId
   }
 
   const styles = {
@@ -28,7 +29,7 @@ function ItemCard(props: any) {
       <div className={styles.imgBox}>
         <Link 
           href={{
-            pathname: `/components/Marketplace/Items/${props.data.tokenId}`,
+            pathname: `/components/Marketplace/Items/${props.data.productId}`,
             query: data
           }}
         >
