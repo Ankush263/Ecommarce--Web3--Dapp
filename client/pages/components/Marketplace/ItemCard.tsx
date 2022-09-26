@@ -5,7 +5,7 @@ import React from 'react'
 function ItemCard(props: any) {
 
   const stocks = () => {
-    console.log(props.data.productId)
+    console.log(props.data.price)
   }
 
   const data = {
@@ -35,11 +35,12 @@ function ItemCard(props: any) {
         >
           <img src={props.data.img} onClick={stocks} className={styles.img} />
         </Link>
+        {/* <img src={props.data.img} onClick={stocks} className={styles.img} /> */}
       </div>
       <span className='text-black text-sm font-semibold'>{props.data.title}</span>
       <div className="w-full flex justify-center items-center">
         <span className='text-black text-sm font-bold'>Stocks: {props.data.stocks ? (props.data.stocks).toString() : ""}</span>
-        <span className='text-black text-sm font-semibold ml-5'>{props.data.price / 10 ** 18}</span>
+        <span className='text-black text-sm font-semibold ml-5'>{props.data.price}</span>
         <img src="/images/eth2.png" className='w-10 m-0 p-0' />
       </div>
     </div>
