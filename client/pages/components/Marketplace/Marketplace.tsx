@@ -86,7 +86,7 @@ function Marketplace() {
   const [data, updateData] = useState(sampleData)
   const [dataFatched, updateDataFatched] = useState(false)
 
-  const deployAddress = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
   const getAllData = async () => {
     
@@ -100,7 +100,7 @@ function Marketplace() {
 
       const items: any = await Promise.all(allProducts.map(async (i: any) => {
 
-        let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+        let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
         console.log(i.productId.toNumber())
         let item = {
           price,
