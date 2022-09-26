@@ -58,7 +58,7 @@ function id() {
             <span className={styles.desc}>Only {data.stocks} pices left</span>
             <span className={styles.desc}>Description: {data.desc}</span>
             <span className={styles.desc}>Owner: {data.seller}</span>
-            <span className={styles.desc}>Price: {Number(data.price) / 10 ** 18}eth only</span>
+            <span className={styles.desc}>Price: {data.price}eth only</span>
             <div className="w-full flex justify-center items-center">
               <Link href={{
                 pathname: '/components/Marketplace/Buy',
