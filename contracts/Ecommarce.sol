@@ -63,8 +63,8 @@ contract Ecommarce{
 
   function buy(uint _productId, string memory _deliveryAddress, uint _numberOfProducts) payable public {
 
-    // require(products[_productId-1].price == msg.value, "Please  pay the exact price");
-    require(msg.value >= products[_productId-1].price, "Please  pay the exact price");
+    require(msg.value == products[_productId-1].price * _numberOfProducts, "Please  pay the exact price");
+    // require(msg.value >= products[_productId-1].price, "Please  pay the exact price");
     require(products[_productId-1].seller != msg.sender, "Seller not be the buyer");
     require(_numberOfProducts > 0, "Please select how many products you want to buy");
     require(_numberOfProducts <= products[_productId-1].stocks, "You reach the product's stock limit");
