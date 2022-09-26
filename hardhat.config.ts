@@ -13,9 +13,9 @@ const config: HardhatUserConfig = {
     //   accounts: [PRIVATE_KEY]
     // }
     hardhat: {
-      allowUnlimitedContractSize: true,
-      blockGasLimit: 0x1fffffffffffff,
+      // blockGasLimit: 0x1fffffffffffff,
       chainId: 31337,
+      // allowUnlimitedContractSize: true,
     },
   }
 };
