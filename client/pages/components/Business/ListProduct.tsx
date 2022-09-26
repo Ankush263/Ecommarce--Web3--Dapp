@@ -8,7 +8,7 @@ import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
 
 function ListProduct() {
 
-  const deployAddress = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
   const [uploadImg, setUploadImg] = useState('')
   const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0, img: '' })
@@ -68,10 +68,11 @@ function ListProduct() {
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
 
-      const price = ethers.utils.parseUnits(productDesc.price.toString(), 'ether')
+      const price = ethers.utils.parseUnits(productDesc.price.toString(), 'wei')
 
       let listingPrice = await contract.listPrice()
       listingPrice = listingPrice.toString()
+      
       let transaction = await contract.registerProduct(
         productDesc.title, 
         productDesc.desc,
@@ -86,7 +87,7 @@ function ListProduct() {
       setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
       setDisabled(false)
 
-      // console.log(listingPrice)
+      console.log(listingPrice)
 
     } catch (error) {
       alert("Upload Error: "+error)
