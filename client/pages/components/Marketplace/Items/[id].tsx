@@ -16,7 +16,8 @@ function id() {
     img: data.img,
     title: data.title,
     price: data.price,
-    id: data.id
+    id: data.id,
+    stocks: data.stocks
   }
 
   const styles = {
