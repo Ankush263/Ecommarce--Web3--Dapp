@@ -41,7 +41,7 @@ function NavBarMarket() {
     searchBox: `w-72 bg-slate-300/[.5] shadow-2xl border-white-900/75 rounded-3xl flex justify-between items-center p-1 text-black`,
     search: `w-72 bg-slate-300/[.0] rounded-3xl text-black pl-1 pr-1 placeholder-gray-900 focus:outline-none`,
     home: `flex flex-col justify-center items-center cursor-pointer`,
-    basket: `flex flex-col justify-center items-center`,
+    basket: `flex flex-col justify-center items-center cursor-pointer`,
     app: ``,
     bottomAsset: ``,
     vertical: `h-28 w-20 absolute ml-5 rounded-2xl`,
@@ -72,7 +72,9 @@ function NavBarMarket() {
             <span>{walletBalance}</span>
           </div>
           <div className={styles.basket}>
-            <ShoppingBasketIcon />
+            <Link href='/components/Marketplace/myProducts/MyProducts'>
+              <ShoppingBasketIcon />
+            </Link>
             <span>3</span>
           </div>
           <div className={styles.app}>
