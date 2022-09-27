@@ -21,72 +21,12 @@ function Marketplace() {
       "price": "1000",
       "tokenId": "02",
     },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo3",
-      "price": "1000",
-      "tokenId": "03",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo4",
-      "price": "1000",
-      "tokenId": "04",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo5",
-      "price": "1000",
-      "tokenId": "05",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo6",
-      "price": "1000",
-      "tokenId": "06",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo4",
-      "price": "1000ETH",
-      "tokenId": "07",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo5",
-      "price": "1000",
-      "tokenId": "08",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo6",
-      "price": "1000",
-      "tokenId": "10",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo4",
-      "price": "1000",
-      "tokenId": "11",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo5",
-      "price": "1000",
-      "tokenId": "12",
-    },
-    {
-      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      "title": "Demo6",
-      "price": "1000",
-      "tokenId": "13",
-    },
   ]
 
   const [data, updateData] = useState(sampleData)
   const [dataFatched, updateDataFatched] = useState(false)
 
-  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
   const getAllData = async () => {
     
