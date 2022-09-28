@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Button} from '@mui/material';
 import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import { ethers } from 'ethers';
@@ -6,6 +6,7 @@ import Products from './Products';
 
 function MyProducts() {
   const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const [data, setData] = useState()
   
   const handleClick = async() => {
     try {
@@ -39,8 +40,9 @@ function MyProducts() {
   return (
     <div className={styles.page}>
       <div className={styles.box}>
-        <div className={styles.itemBox}>
-          <Products />
+        <div>
+          <Products/>
+          <Products/>
         </div>
         {/* <div className={styles.itemBox}></div>
         <div className={styles.itemBox}></div>
