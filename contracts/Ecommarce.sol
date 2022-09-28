@@ -30,8 +30,6 @@ contract Ecommarce{
   uint count = 1;
   Product[] public products;
 
-  Product[] public myProducts;
-
   address payable public manager;
 
   bool destroyed = false;
@@ -75,44 +73,18 @@ contract Ecommarce{
     // customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
 
     productsNumber[msg.sender][_productId] = _numberOfProducts;
-    products[_productId-1].stocks -= _numberOfProducts; 
+    products[_productId-1].stocks -= _numberOfProducts;
 
 
+  }
+
+  function ShowMyCustomers() public view returns(address[] memory _buyers) {
+    return myCustomers[msg.sender];
   }
 
 
   function showStockOfProduct(uint _productId) public view returns(uint) {
     return products[_productId-1].stocks;
-  }
-
-
-  function OrderCancel(uint _productId, address payable _buyer) public {
-
-    require(products[_productId-1].seller != msg.sender, "Seller can't cancell the ordered product");
-
-    payable(_buyer).transfer(products[_productId-1].price);
-    products[_productId-1].stocks += productsNumber[msg.sender][_productId];
-    //we have to remove the customer
-    // we have to delete a certain address from buyer's array
-    // delete(_buyer);
-    // mapping(address => address[]) public myCustomers;
-    // mapping(seller => buyer[])
-
-    // address sellerAddress = products[_productId-1].seller;
-    // address[] memory buyerArray = myCustomers[products[_productId-1].seller];
-    
-    for(uint i = 0; i < myCustomers[products[_productId-1].seller].length; i++) {
-      if(_buyer == myCustomers[products[_productId-1].seller][i]){
-        // delete(buyerArray[i]);
-        require(i < myCustomers[products[_productId-1].seller].length);
-        for(uint j = i; j < myCustomers[products[_productId-1].seller].length-1; j++) {
-          myCustomers[products[_productId-1].seller][j] = myCustomers[products[_productId-1].seller][j+1];
-        }
-        // buyerArray.pop();
-        myCustomers[products[_productId-1].seller].pop();
-      }
-    }
-
   }
 
   function getAllProducts() view public returns(Product[] memory) {
@@ -135,15 +107,31 @@ contract Ecommarce{
     endAt = _day;
   }
 
+  
+  function getMyAllProduct() public view returns(Product[] memory) {
+    uint itemCount = 0;
+    uint currentIndex = 0;
 
-  function showMyProducts(address _address) public{ //? for seller or buyer? => buyer
-    for(uint i = 0; i < products.length; i++){
-      for(uint j = 0; j < products[i].buyer.length; j++){
-        if(products[i].buyer[j] == _address){
-          myProducts.push(products[i]);
+    for(uint i = 0; i < products.length; i++) {
+      for(uint j = 0; j < products[i].buyer.length; j++) {
+        if(products[i].buyer[j] == msg.sender) {
+          itemCount++;
         }
       }
     }
+
+    Product[] memory items = new Product[](itemCount);
+    for(uint i = 0; i < products.length; i++) {
+      for(uint j = 0; j < products[i].buyer.length; j++) {
+        if(products[i].buyer[j] == msg.sender) {
+          items[currentIndex] = products[i];
+          currentIndex++;
+        }
+      }
+    }
+    return items;
   }
+
+  
 
 }
