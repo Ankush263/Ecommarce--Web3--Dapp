@@ -1,35 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Button} from '@mui/material';
 import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import { ethers } from 'ethers';
 import Products from './Products';
 
 function MyProducts() {
+
+  const sampleData = [
+    {
+      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+      "title": "Demo1",
+      "price": "1000",
+      "tokenId": "01",
+    },
+    {
+      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+      "title": "Demo2",
+      "price": "1000",
+      "tokenId": "02",
+    },
+  ]
+
+
   const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-  const [data, setData] = useState()
+  const [data, setData] = useState(sampleData)
+
   
-  const handleClick = async() => {
+  const fatchedData = async() => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-      console.log("Clicked!!!")
+      
+      let allMyProducts = await contract.getMyAllProduct();
 
+      const items: any = await Promise.all(allMyProducts.map(async (i: any) => {
 
-      // const show = await contract.showMyProducts(address)
+        let item = {
+          price: i.price,
+          productId: i.productId.toNumber(),
+          seller: i.seller,
+          buyer: i.buyer,
+          title: i.title,
+          desc: i.desc,
+          stocks: i.stocks,
+          img: i.img,
+          deliveryStart: i.deliveryStart,
+          deliveryEnd: i.deliveryEnd,
+        }
+        return item
+      }))
 
-      // await show.wait()
+      setData(items)
 
-      console.log(await contract.myProducts(0))
-
-
+      console.log(data)
 
 
     } catch (error) {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    fatchedData()
+  }, [])
 
   const styles = {
     page: `w-screen min-h-screen flex justify-center items-center`,
@@ -41,8 +76,13 @@ function MyProducts() {
     <div className={styles.page}>
       <div className={styles.box}>
         <div>
-          <Products/>
-          <Products/>
+
+          {data.map((value, index) => {
+            return <Products data={value} key={index} />
+          })}
+
+          {/* <Products/>
+          <Products/> */}
         </div>
         {/* <div className={styles.itemBox}></div>
         <div className={styles.itemBox}></div>
