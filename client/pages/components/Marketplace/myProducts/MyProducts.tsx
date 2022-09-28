@@ -48,6 +48,7 @@ function MyProducts() {
           img: i.img,
           deliveryStart: i.deliveryStart,
           deliveryEnd: i.deliveryEnd,
+          delevered: i.delevered,
         }
         return item
       }))
