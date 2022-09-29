@@ -132,6 +132,26 @@ contract Ecommarce{
     return items;
   }
 
+  function getAllMyListedProducts() public view returns(Product[] memory) {
+    uint itemCount = 0;
+    uint currentIndex = 0;
+
+    for(uint i = 0; i < products.length; i++) {
+      if(products[i].seller == msg.sender) {
+        itemCount++;
+      }
+    }
+
+    Product[] memory items = new Product[](itemCount);
+    for(uint i = 0; i < products.length; i++) {
+      if(products[i].seller == msg.sender){
+        items[currentIndex] = products[i];
+        currentIndex++;
+      }
+    }
+    return items;
+  }
+
   
 
 }
