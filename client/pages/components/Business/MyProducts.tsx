@@ -4,6 +4,7 @@ import NavBarBusiness from './NavBarBusiness'
 import Button from '@mui/material/Button';
 import ABI from '../../../utils/Ecommarce.json'
 import { ethers } from 'ethers'
+import ListedProducts from './ListedProducts';
 
 function MyProducts() {
 
@@ -16,14 +17,6 @@ function MyProducts() {
   }
 
   return (
-    // <div className={styles.page}>
-    //   <div className={styles.left}>
-    //     <SideBar />
-    //   </div>
-    //   <div className={styles.right}>
-    //     My Products
-    //   </div>
-    // </div>
     <div className='grid grid-cols-6 grid-flow-row'>
       <div className="row-span-3">
         <SideBar />
@@ -33,7 +26,7 @@ function MyProducts() {
       </div>
       <div className="row-span-2 col-span-5">
         <div className="border-8 h-full w-full">
-          
+          <ListedProducts />
         </div>
       </div>
     </div>
