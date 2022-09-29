@@ -86,7 +86,7 @@ function ListProduct() {
       setUploadImg('')
       setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
       setDisabled(false)
-
+      window.location.replace('/components/Marketplace/HomePage')
       console.log(listingPrice)
 
     } catch (error) {
