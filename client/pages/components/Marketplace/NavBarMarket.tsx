@@ -75,7 +75,7 @@ function NavBarMarket() {
             <Link href='/components/Marketplace/myProducts/MyProducts'>
               <ShoppingBasketIcon />
             </Link>
-            <span>3</span>
+            <span>My Products</span>
           </div>
           <div className={styles.app}>
             <AppsIcon fontSize='large' />
