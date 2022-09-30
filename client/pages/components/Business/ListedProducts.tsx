@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import { ethers } from 'ethers';
+import ItemCard from './Itemcard';
 
 
 
@@ -37,9 +38,33 @@ function ListedProducts() {
 
       let allProducts = await contract.getAllMyListedProducts()
 
+      const items: any = await Promise.all(allProducts.map(async (i: any) => {
+
+        let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
+        console.log(i.productId.toNumber())
+        let item = {
+          price,
+          productId: i.productId.toNumber(),
+          seller: i.seller,
+          buyer: i.buyer,
+          title: i.title,
+          desc: i.desc,
+          stocks: i.stocks,
+          img: i.img,
+        }
+        return item
+      }))
+
+      updateData(items)
+      updateDataFatched(true)
+
     } catch (error) {
       console.log(error)
     }
+  }
+
+  if(!dataFatched) {
+    getItems()
   }
 
   const styles = {
@@ -48,7 +73,11 @@ function ListedProducts() {
 
   return (
     <div className={styles.box}>
-      <Button variant="contained" onClick={getItems}>click</Button>
+
+      {data.map((value, index) => {
+        return <ItemCard data={value} key={index} />
+      })}
+      
     </div>
   )
 }
