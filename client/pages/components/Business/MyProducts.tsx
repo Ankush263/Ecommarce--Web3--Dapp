@@ -21,7 +21,7 @@ function MyProducts() {
       <div className="row-span-3">
         <SideBar />
       </div>
-      <div className="col-span-5 row-span-1 border-8 h-36">
+      <div className="col-span-5 row-span-1 h-36">
         <NavBarBusiness />
       </div>
       <div className="row-span-2 col-span-5">
