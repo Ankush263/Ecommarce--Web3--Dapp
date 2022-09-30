@@ -25,7 +25,7 @@ function MyProducts() {
         <NavBarBusiness />
       </div>
       <div className="row-span-2 col-span-5">
-        <div className="border-8 h-full w-full">
+        <div className="h-full w-full flex justify-center items-between">
           <ListedProducts />
         </div>
       </div>
