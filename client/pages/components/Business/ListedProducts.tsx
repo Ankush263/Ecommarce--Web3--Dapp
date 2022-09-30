@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import { ethers } from 'ethers';
@@ -6,6 +6,24 @@ import { ethers } from 'ethers';
 
 
 function ListedProducts() {
+
+  const sampleData = [
+    {
+      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+      "title": "Demo1",
+      "price": "1000",
+      "tokenId": "01",
+    },
+    {
+      "img": "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+      "title": "Demo2",
+      "price": "1000",
+      "tokenId": "02",
+    },
+  ]
+
+  const [data, updateData] = useState(sampleData)
+  const [dataFatched, updateDataFatched] = useState(false)
 
   const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
@@ -15,9 +33,10 @@ function ListedProducts() {
       const signer = provider.getSigner()
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-      console.log("clicked")
-
       console.log(await contract.getAllMyListedProducts())
+
+      let allProducts = await contract.getAllMyListedProducts()
+
     } catch (error) {
       console.log(error)
     }
