@@ -68,16 +68,17 @@ function ListedProducts() {
   }
 
   const styles = {
-    box: `w-11/12 h-5/6 bg-slate-300/[.5] shadow-2xl border-white-900/75 rounded-xl mb-96`,
+    box: `w-11/12 min-h-screen mt-20 mb-20 bg-slate-300/[.5] shadow-2xl border-white-900/75 rounded-xl flex justify-center items-center p-2`,
   }
 
   return (
-    <div className={styles.box}>
+    <div className='min-h-screen w-10/12 mt-20 ml-9 flex justify-between items-center '>
+      <div className="w-full min-h-screen grid grid-cols-5  ">
 
-      {data.map((value, index) => {
-        return <ItemCard data={value} key={index} />
-      })}
-      
+        {data.map((value, index) => {
+          return <ItemCard data={value} key={index} />
+        })}
+      </div>
     </div>
   )
 }
