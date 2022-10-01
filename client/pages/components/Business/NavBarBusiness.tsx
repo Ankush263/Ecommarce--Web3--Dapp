@@ -31,7 +31,7 @@ function NavBar() {
           </div>
         </Link>
         <div className="flex w-5/12 justify-end">
-          {window.location.pathname !== "/components/Business/MyProducts" ? 
+          {typeof window !== 'undefined' && window.location.pathname !== "/components/Business/MyProducts" ? 
           <Link href="/components/Business/MyProducts">
             <div className='ml-5 w-3/12'>
               <ColorButton variant="outlined" className='font-bold'>My Products</ColorButton>
