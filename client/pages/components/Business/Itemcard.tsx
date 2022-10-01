@@ -1,17 +1,3 @@
-// import React from 'react';
-// import { Button } from '@mui/material';
-
-
-// function Itemcard(props: any) {
-//   return (
-//     <div>
-//       <Button variant="contained" onClick={() => console.log(props)}>click</Button>
-//     </div>
-//   )
-// }
-
-// export default Itemcard
-
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import React from 'react'
@@ -19,16 +5,17 @@ import React from 'react'
 function ItemCard(props: any) {
 
   const stocks = () => {
-    console.log(props.data.price)
+    console.log(props.data)
   }
 
   const data = {
     img: props.data.img,
     title: props.data.title,
-    desc: props.data.desc,
+    // desc: props.data.desc,
     seller: props.data.seller,
-    stocks: props.data.stocks ? (props.data.stocks).toString() : props.data.stocks,
-    price: props.data.price,
+    buyer: props.data.buyer,
+    // stocks: props.data.stocks ? (props.data.stocks).toString() : props.data.stocks,
+    // price: props.data.price,
     id: props.data.productId
   }
 
@@ -41,14 +28,14 @@ function ItemCard(props: any) {
   return (
     <div className={styles.cardBox}>
       <div className={styles.imgBox}>
-        {/* <Link 
+        <Link 
           href={{
-            pathname: `/components/Marketplace/Items/${props.data.productId}`,
+            pathname: `/components/Business/items/${props.data.productId}`,
             query: data
           }}
-        > */}
+        >
           <img src={props.data.img} onClick={stocks} className={styles.img} />
-        {/* </Link> */}
+        </Link>
         {/* <img src={props.data.img} onClick={stocks} className={styles.img} /> */}
       </div>
       <span className='text-black text-sm font-semibold'>{props.data.title}</span>
