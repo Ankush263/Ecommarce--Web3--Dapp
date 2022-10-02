@@ -25,7 +25,6 @@ function Buy() {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
-      const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
 
       const amount = ((Number(data.price) * numberItems)).toString()
