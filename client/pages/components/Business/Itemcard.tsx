@@ -5,18 +5,16 @@ import React from 'react'
 function ItemCard(props: any) {
 
   const stocks = () => {
-    console.log(props.data)
+    console.log(typeof props.data.buyer)
   }
 
   const data = {
     img: props.data.img,
     title: props.data.title,
-    // desc: props.data.desc,
     seller: props.data.seller,
     buyer: props.data.buyer,
-    // stocks: props.data.stocks ? (props.data.stocks).toString() : props.data.stocks,
-    // price: props.data.price,
-    id: props.data.productId
+    id: props.data.productId,
+    delevered: props.data.delevered,
   }
 
   const styles = {
@@ -36,7 +34,6 @@ function ItemCard(props: any) {
         >
           <img src={props.data.img} onClick={stocks} className={styles.img} />
         </Link>
-        {/* <img src={props.data.img} onClick={stocks} className={styles.img} /> */}
       </div>
       <span className='text-black text-sm font-semibold'>{props.data.title}</span>
       <div className="w-full flex justify-center items-center">
