@@ -51,6 +51,7 @@ function ListedProducts() {
           desc: i.desc,
           stocks: i.stocks,
           img: i.img,
+          delevered: i.delevered,
         }
         return item
       }))
