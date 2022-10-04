@@ -20,9 +20,13 @@ contract Ecommarce{
 
   mapping(address=>mapping(uint => uint)) public productsNumber;   // mapping(address=>mapping(id=>no. of product)) ie. no[address][id]=numbers
 
+  mapping(address => mapping(uint => address[])) public customerById;
+
   mapping(address => string) public deliveryLocation;    // where the item should delivered
 
   mapping(address => address[]) public myCustomers;
+
+  mapping(uint => mapping(address => bool)) public delevery;
 
   uint public endAt;    // End day
 
@@ -71,6 +75,7 @@ contract Ecommarce{
 
     myCustomers[products[_productId-1].seller] = products[_productId-1].buyer;
     // customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
+    customerById[products[_productId-1].seller][_productId] = products[_productId-1].buyer;
 
     productsNumber[msg.sender][_productId] = _numberOfProducts;
     products[_productId-1].stocks -= _numberOfProducts;
@@ -82,6 +87,9 @@ contract Ecommarce{
     return myCustomers[msg.sender];
   }
 
+  function ShowMyCustomersById(uint _id) public view returns(address[] memory _buyers) {
+    return customerById[msg.sender][_id];
+  }
 
   function showStockOfProduct(uint _productId) public view returns(uint) {
     return products[_productId-1].stocks;
@@ -98,7 +106,7 @@ contract Ecommarce{
     require(products[_productId-1].seller != msg.sender, "Only buyer can call this");
     products[_productId-1].delevered = true;
     (products[_productId-1].seller).transfer(products[_productId-1].price);
-
+    delevery[_productId][msg.sender] = true;
   }
 
   
