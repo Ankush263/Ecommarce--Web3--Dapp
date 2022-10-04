@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import { ethers } from 'ethers';
 import swal from 'sweetalert';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 
 function Address(props: any) {
+
+  const [delevered, setDeleverd] = useState(false)
 
   const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
@@ -16,12 +19,14 @@ function Address(props: any) {
       const signer = provider.getSigner()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
 
-      let sendAddress = await contract.deliveryLocation(addr) 
+      let sendAddress = await contract.deliveryLocation(addr)
 
-      // alert(sendAddress)
       swal(sendAddress);
 
-      console.log(sendAddress)
+      // console.log(props)
+      // console.log(await contract.delevery(props.id, addr))
+      let delevery = await contract.delevery(props.id, addr)
+      setDeleverd(delevery)
 
     } catch (error) {
       console.log(error)
@@ -32,7 +37,8 @@ function Address(props: any) {
   return (
     <div className='mb-10 w-8/12 flex justify-between'>
       <span>{props.data}</span>
-      <Button onClick={() => showAddress(props.data)} variant="contained">Show Me Address</Button>
+      {delevered && <DoneOutlineIcon />}
+      <Button onClick={() => showAddress(props.data)} variant="contained" className='bg-orange-500'>Show Me Address</Button>
     </div>
   )
 }
