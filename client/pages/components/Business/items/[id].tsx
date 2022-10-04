@@ -3,24 +3,37 @@ import { useRouter } from 'next/router'
 import Button from '@mui/material/Button';
 import { ethers } from 'ethers';
 import Address from './Address';
+import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 
 
 
 function id() {
-
-
-  // const [customers, setCustomers] = useState()
-
-  // let addressArr: (string | string[] | undefined)[] = []
-
+  
   const router = useRouter()
   const data = router.query
 
-  const test = () => {
-    console.log(Array(data.buyer))
-    Array(`${data.buyer}`).map((data: any, index: any) => {
-      return <Address data={data} key={index} />
-    })
+  const [myCustomers, setMyCustomers] = useState([])
+  const [disable, setDisable] = useState(false)
+  const [id, setId] = useState(0)
+
+  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+
+  const test = async () => {
+    setDisable(true)
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+
+      let allMyCustomers = await contract.ShowMyCustomersById(data.id)
+      setMyCustomers(allMyCustomers)
+
+      console.log(data)
+      setId(Number(data.id))
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const styles = {
@@ -31,19 +44,18 @@ function id() {
   return (
     <div className={styles.page}>
       <div className={styles.box}>
-        <img src={`${data.img}`} className='w-96 rounded-xl' onClick={test} />
+        <img src={`${data.img}`} className='w-96 rounded-xl' />
         <div className="w-full mt-10 flex justify-center items-center">
           <span className='text-3xl text-orange-600 font-bold'>My Customers</span>
         </div>
         <div className="mt-4 w-full min-h-5/6 flex flex-col justify-between items-center">
           
           <div id='addr' className="text-black text-2xl flex flex-col justify-center items-center mb-10 w-full">
+            <Button disabled={disable} onClick={test} variant="contained" className='mb-5 bg-orange-500'>Show My Customers</Button>
             {
-
-              // Array(`${data.buyer}`).map((data: any, index: any) => {
-              //   return <Address data={data} key={index} />
-              // })
-              
+              myCustomers.map((data, index) => {
+                return <Address data={data} id={id} key={index} />
+              }) 
             }
           </div>
 
