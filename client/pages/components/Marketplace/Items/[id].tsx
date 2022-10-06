@@ -24,7 +24,6 @@ function id() {
     page: `min-w-screen min-h-screen flex justify-center items-center`,
     sideBarBox: `w-2/12 h-screen ml-1`,
     mainBox: `w-full h-screen mr-2`,
-    // top: `h-2/6 w-full flex justify-between items-start bg-slate-200/[.2] shadow-2xl border-white-900/75 `,
     top: `ml-2 h-2/6 w-full flex justify-between items-start shadow-2xl border-white-900/75 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl`,
     bottom : `w-full h-full flex justify-center items-center`,
     left: `cursor-pointer`,
