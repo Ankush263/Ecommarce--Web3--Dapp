@@ -23,8 +23,6 @@ function Address(props: any) {
 
       swal(sendAddress);
 
-      // console.log(props)
-      // console.log(await contract.delevery(props.id, addr))
       let delevery = await contract.delevery(props.id, addr)
       setDeleverd(delevery)
 
