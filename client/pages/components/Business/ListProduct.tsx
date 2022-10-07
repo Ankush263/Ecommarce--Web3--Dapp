@@ -190,10 +190,10 @@ function ListProduct() {
                 <img src={`${uploadImg}`} 
                   className='rounded-xl w-max h-max max-w-full max-h-full'
                 /> : 
-                <p 
+                <span 
                   className='text-teal-900 text-xl font-bold font-sans'
                   >Uploaded image will be shown here!!!
-                </p>
+                </span>
               }
             </div>
           </div>
