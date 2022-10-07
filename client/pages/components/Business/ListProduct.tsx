@@ -118,10 +118,10 @@ function ListProduct() {
               className='ml-60 text-teal-900 font-serif'>
                 Welcome to the Web3.0 Ecommerce Business
             </span>
-            <p 
+            <span 
               className='ml-40 text-teal-900 font-serif'>
                 Here you can list any products with 0.01 eth each
-            </p>
+            </span>
           </span>
           <div className="w-11/12 h-screen flex justify-around">
             <div className={styles.left}>
