@@ -114,14 +114,14 @@ function ListProduct() {
       <div className='flex flex-col justify-center items-center'>
         <div className={styles.space}>
           <div className='w-11/12 h-1/6 text-4xl font-black flex flex-col'>
-            <span 
+            <div 
               className='ml-60 text-teal-900 font-serif'>
-                Welcome to the Web3.0 Ecommerce Business
-            </span>
-            <span 
+                <span>Welcome to the Web3.0 Ecommerce Business</span>
+            </div>
+            <div 
               className='ml-40 text-teal-900 font-serif'>
-                Here you can list any products with 0.01 eth each
-            </span>
+                <span>Here you can list any products with 0.01 eth each</span>
+            </div>
           </div>
           <div className="w-11/12 h-screen flex justify-around">
             <div className={styles.left}>
