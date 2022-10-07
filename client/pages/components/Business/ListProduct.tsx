@@ -114,10 +114,10 @@ function ListProduct() {
       <div className='flex flex-col justify-center items-center'>
         <div className={styles.space}>
           <span className='w-11/12 h-1/6 text-4xl font-black'>
-            <p 
+            <span 
               className='ml-60 text-teal-900 font-serif'>
                 Welcome to the Web3.0 Ecommerce Business
-            </p>
+            </span>
             <p 
               className='ml-40 text-teal-900 font-serif'>
                 Here you can list any products with 0.01 eth each
