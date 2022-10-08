@@ -11,7 +11,7 @@ function ListProduct() {
   const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
   const [uploadImg, setUploadImg] = useState('')
-  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0, img: '' })
+  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0.0, stock: 0, img: '' })
   const [disabled, setDisabled] = useState(false)
 
   const uploadFile = async (e: any) => {
@@ -57,12 +57,12 @@ function ListProduct() {
 
   const list = async (e: any) => {
 
-    setDisabled(true)
+    // setDisabled(true)
     e.preventDefault()
 
     try {
       
-      const metadataURL = await uploadMetadataToIPFS()
+      // const metadataURL = await uploadMetadataToIPFS()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const address = await signer.getAddress()
@@ -70,24 +70,27 @@ function ListProduct() {
 
       const price = ethers.utils.parseUnits(productDesc.price.toString(), 'wei')
 
+      console.log("Real Price: ", price)
+      // console.log("Converted Price: ", ethers.utils.parseUnits(productDesc.price.toString()))
+
       let listingPrice = await contract.listPrice()
       listingPrice = listingPrice.toString()
       
-      let transaction = await contract.registerProduct(
-        productDesc.title, 
-        productDesc.desc,
-        price,
-        productDesc.stock,
-        uploadImg,
-        { value: listingPrice }
-      )
-      await transaction.wait()
+      // let transaction = await contract.registerProduct(
+      //   productDesc.title, 
+      //   productDesc.desc,
+      //   price,
+      //   productDesc.stock,
+      //   uploadImg,
+      //   { value: listingPrice }
+      // )
+      // await transaction.wait()
       alert("Successfully list your product!!!")
-      setUploadImg('')
-      setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
-      setDisabled(false)
-      window.location.replace('/components/Marketplace/HomePage')
-      console.log(listingPrice)
+      // setUploadImg('')
+      // setProductDesc({ title: '', desc: '', price: 0.0, stock: 0, img: '' })
+      // setDisabled(false)
+      // window.location.replace('/components/Marketplace/HomePage')
+      // console.log(listingPrice)
 
     } catch (error) {
       alert("Upload Error: "+error)
@@ -110,7 +113,9 @@ function ListProduct() {
 
   return (
     <div>
-      <NavBar />
+      {/* <div>
+        <NavBar />
+      </div> */}
       <div className='flex flex-col justify-center items-center'>
         <div className={styles.space}>
           <div className='w-11/12 h-1/6 text-4xl font-black flex flex-col'>
