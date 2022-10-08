@@ -43,7 +43,8 @@ function WellcomePage() {
             </Button>
           </div>
           <div className={styles.pages}>
-            <Link href="/components/Business/ListProduct">
+            {/* <Link href="/components/Business/ListProduct"> */}
+            <Link href="/components/Business/Home">
               <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500' disabled={!logedIn}>
                 Go For Business
                 <img src="/images/car_loading.PNG" className='w-20' />
