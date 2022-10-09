@@ -7,7 +7,7 @@ import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 
 function Buy() {
 
-  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const deployAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
   const [address, setAddress] = useState('')
   const [numberItems, setNumberItems] = useState(1)
   const [total, setTotal] = useState(1)
@@ -28,6 +28,8 @@ function Buy() {
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
 
       const amount = ((Number(data.price) * numberItems)).toString()
+
+      console.log(amount)
 
       let transaction = await contract.buy(
         Number(data.id), 
