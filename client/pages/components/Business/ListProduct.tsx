@@ -8,10 +8,10 @@ import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
 
 function ListProduct() {
 
-  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
   const [uploadImg, setUploadImg] = useState('')
-  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0.0, stock: 0, img: '' })
+  const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0, img: '' })
   const [disabled, setDisabled] = useState(false)
 
   const uploadFile = async (e: any) => {
@@ -57,46 +57,65 @@ function ListProduct() {
 
   const list = async (e: any) => {
 
-    // setDisabled(true)
+    setDisabled(true)
     e.preventDefault()
 
     try {
-      
-      // const metadataURL = await uploadMetadataToIPFS()
+
+      const metadataURL = await uploadMetadataToIPFS()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
 
-      const price = ethers.utils.parseUnits(productDesc.price.toString(), 'wei')
+      let price = ethers.utils.parseUnits(`${productDesc.price.toString()}`, 'ether')
+      // let price = ethers.utils.parseEther(`${productDesc.price.toString()}`)
 
-      console.log("Real Price: ", price)
-      // console.log("Converted Price: ", ethers.utils.parseUnits(productDesc.price.toString()))
+
+      // const price = productDesc.price.toString()
+
+      
+      // console.log("wei Price: ", price.toString())
+      console.log("BigNumber : ", price)
+      console.log("Real Price: ", price.toString())
+
+      console.log("Change: ", ethers.utils.formatEther(price))
+
+
+
+
+
+      // let myProducts = await contract.getAllMyListedProducts()
+      // console.log(myProducts[0].price.toString())
+
+
+
+
+
 
       let listingPrice = await contract.listPrice()
       listingPrice = listingPrice.toString()
-      
-      // let transaction = await contract.registerProduct(
-      //   productDesc.title, 
-      //   productDesc.desc,
-      //   price,
-      //   productDesc.stock,
-      //   uploadImg,
-      //   { value: listingPrice }
-      // )
-      // await transaction.wait()
+
+      let transaction = await contract.registerProduct(
+        productDesc.title,
+        productDesc.desc,
+        price,
+        productDesc.stock,
+        uploadImg,
+        { value: listingPrice }
+      )
+      await transaction.wait()
       alert("Successfully list your product!!!")
-      // setUploadImg('')
-      // setProductDesc({ title: '', desc: '', price: 0.0, stock: 0, img: '' })
-      // setDisabled(false)
-      // window.location.replace('/components/Marketplace/HomePage')
-      // console.log(listingPrice)
+      setUploadImg('')
+      setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
+      setDisabled(false)
+      window.location.replace('/components/Marketplace/HomePage')
 
     } catch (error) {
       alert("Upload Error: "+error)
       console.log("List Error: ", error)
     }
-    
+
   }
 
   const styles = {
@@ -119,11 +138,11 @@ function ListProduct() {
       <div className='flex flex-col justify-center items-center'>
         <div className={styles.space}>
           <div className='w-11/12 h-1/6 text-4xl font-black flex flex-col'>
-            <div 
+            <div
               className='ml-60 text-teal-900 font-serif'>
                 <span>Welcome to the Web3.0 Ecommerce Business</span>
             </div>
-            <div 
+            <div
               className='ml-40 text-teal-900 font-serif'>
                 <span>Here you can list any products with 0.01 eth each</span>
             </div>
@@ -133,54 +152,54 @@ function ListProduct() {
               <div className={styles.box}>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Upload Image</span>
-                  <input 
-                    type="file" 
-                    onChange={uploadFile} 
-                    className='' 
+                  <input
+                    type="file"
+                    onChange={uploadFile}
+                    className=''
                   />
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Title: </span>
-                  <input 
-                    type="text" 
-                    onChange={(e) => setProductDesc({ ...productDesc, title: e.target.value })} 
-                    value={productDesc.title} 
-                    className={styles.input} 
+                  <input
+                    type="text"
+                    onChange={(e) => setProductDesc({ ...productDesc, title: e.target.value })}
+                    value={productDesc.title}
+                    className={styles.input}
                   />
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Description: </span>
-                  <textarea 
-                    className={styles.input} 
-                    cols={40} 
-                    rows={5} 
-                    onChange={(e) => setProductDesc({ ...productDesc, desc: e.target.value })} 
+                  <textarea
+                    className={styles.input}
+                    cols={40}
+                    rows={5}
+                    onChange={(e) => setProductDesc({ ...productDesc, desc: e.target.value })}
                     value={productDesc.desc}
                     >
                   </textarea>
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Stocks: </span>
-                  <input 
-                    type="number" 
-                    className={styles.input} 
+                  <input
+                    type="number"
+                    className={styles.input}
                     onChange={(e: any) => setProductDesc({ ...productDesc, stock: e.target.value })}
                     value={productDesc.stock}
                   />
                 </div>
                 <div className={styles.subBox}>
                   <span className={styles.text}>Price: </span>
-                  <input 
-                    type="number" 
-                    className={styles.input} 
+                  <input
+                    type="number"
+                    className={styles.input}
                     onChange={(e: any) => setProductDesc({ ...productDesc, price: e.target.value })}
                     value={productDesc.price}
                   />
                 </div>
                 <div className={styles.subBox}>
-                  <Button 
-                    variant="contained" 
-                    onClick={list} 
+                  <Button
+                    variant="contained"
+                    onClick={list}
                     className='rounded-md mt-5 text-black bg-sky-500'
                     disabled={disabled}
                   >
@@ -191,11 +210,11 @@ function ListProduct() {
             </div>
             <div className={styles.right}>
               {
-                uploadImg ? 
-                <img src={`${uploadImg}`} 
+                uploadImg ?
+                <img src={`${uploadImg}`}
                   className='rounded-xl w-max h-max max-w-full max-h-full'
-                /> : 
-                <span 
+                /> :
+                <span
                   className='text-teal-900 text-xl font-bold font-sans'
                   >Uploaded image will be shown here!!!
                 </span>
