@@ -26,7 +26,7 @@ function ListedProducts() {
   const [data, updateData] = useState(sampleData)
   const [dataFatched, updateDataFatched] = useState(false)
 
-  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
   const getItems = async () => {
     try {
@@ -34,14 +34,19 @@ function ListedProducts() {
       const signer = provider.getSigner()
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-      console.log(await contract.getAllMyListedProducts())
 
       let allProducts = await contract.getAllMyListedProducts()
 
+      // let p = allProducts[0].price.toString()
+      // console.log(ethers.utils.formatEther(p).toString())
+
       const items: any = await Promise.all(allProducts.map(async (i: any) => {
 
-        let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
-        console.log(i.productId.toNumber())
+        let price = ethers.utils.formatEther((i.price).toString())
+
+        console.log("i.price: ", i.price.toString())
+        console.log("price: ", price.toString())
+        
         let item = {
           price,
           productId: i.productId.toNumber(),
