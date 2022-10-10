@@ -52,7 +52,7 @@ contract Ecommarce{
     tempProduct.title = _title;
     tempProduct.desc = _desc;
     tempProduct.img = _img;
-    tempProduct.price = _price * (10 ** 18);
+    tempProduct.price = _price;
     tempProduct.stocks = _stocks;
     tempProduct.seller = payable(msg.sender);
     tempProduct.productId = count;
