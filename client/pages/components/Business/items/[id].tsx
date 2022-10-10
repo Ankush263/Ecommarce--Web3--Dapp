@@ -16,7 +16,7 @@ function id() {
   const [disable, setDisable] = useState(false)
   const [id, setId] = useState(0)
 
-  const deployAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
   const test = async () => {
     setDisable(true)
@@ -28,7 +28,7 @@ function id() {
       let allMyCustomers = await contract.ShowMyCustomersById(data.id)
       setMyCustomers(allMyCustomers)
 
-      console.log(data)
+      console.log(allMyCustomers)
       setId(Number(data.id))
 
     } catch (error) {
@@ -44,7 +44,7 @@ function id() {
   return (
     <div className={styles.page}>
       <div className={styles.box}>
-        <img src={`${data.img}`} className='w-96 rounded-xl' />
+        <img src={`${data.img}`} className='w-96 rounded-xl border-4 border-orange-600' />
         <div className="w-full mt-10 flex justify-center items-center">
           <span className='text-3xl text-orange-600 font-bold'>My Customers</span>
         </div>
