@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import SideBar from '../SideBar'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
+import { ethers } from 'ethers';
 
 function id() {
+
+  const [myAddress, setMyAddress] = useState('')
+  const [myBal, setMyBal] = useState('')
+
+  const fatch = async () => {
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const addr = await signer.getAddress()
+    const Balance = await provider.getBalance(addr)
+    const balance = await ethers.utils.formatEther(Balance)
+    const bal = balance.slice(0, 8)
+    setMyAddress(addr)
+    setMyBal(bal)
+    console.log(bal)
+  }
+
+  useEffect(() => {
+    fatch()
+  }, [])
 
   const router = useRouter()
 
@@ -25,7 +46,7 @@ function id() {
     sideBarBox: `w-2/12 h-screen ml-1`,
     mainBox: `w-full h-screen mr-2`,
     top: `ml-2 h-2/6 w-full flex justify-between items-start shadow-2xl border-white-900/75 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl`,
-    bottom : `w-full h-full flex justify-center items-center`,
+    bottom : `w-full h-full flex justify-center items-center mt-36`,
     left: `cursor-pointer`,
     mid: `min-w-52 h-64 mt-36 rounded-xl flex flex-col justify-center items-center`,
     right: `mr-2 w-36 h-10 flex justify-around items-center`,
@@ -45,28 +66,35 @@ function id() {
             <ArrowBackIcon onClick={() => {router.back()}} fontSize='large' />
           </div>
           <div className={styles.mid}>
-            <img src={`${data.img}`} className='rounded-xl w-52 h-52 border-4 bg-slate-200/[.2] shadow-2xl border-orange-500 ' />
-            <span className='text-black font-semibold text-xl'>{data.title}</span>
+            <img src={`${data.img}`} className='rounded-xl w-96 border-4 bg-slate-200/[.2] shadow-2xl border-orange-500 mt-20' />
+            <span className='text-black font-semibold text-xl mb-20'>{data.title}</span>
           </div>
           <div className={styles.right}>
-            <span>9999.983</span>
+            <span>{myBal}</span>
             <AccountBalanceWalletIcon fontSize='large' />
           </div>
         </div>
         <div className={styles.bottom}>
           <div className={styles.box}>
             <span className={styles.desc}>Only {data.stocks} pices left</span>
-            <span className={styles.desc}>Description: {data.desc}</span>
-            <span className={styles.desc}>Owner: {data.seller}</span>
-            <span className={styles.desc}>Price: {data.price}eth only</span>
+            <span className={styles.desc}><p className="text-black">Description:</p> {data.desc}</span>
+            <span className={styles.desc}><p className="text-black">Owner:</p> {data.seller}</span>
+            <span className={styles.desc}><p className="text-black">Price:</p> {data.price}eth only</span>
             <div className="w-full flex justify-center items-center">
-              <Link href={{
-                pathname: '/components/Marketplace/Buy',
-                query: items
-              }}>
-                <Button variant="contained" className='w-8/12 bg-orange-500'>Buy</Button>
-              </Link>
-              {/* <Button variant="contained" className={styles.btn} data-modal-toggle="authentication-modal">Buy</Button> */}
+              {
+                data.seller !== myAddress ?
+                <Link href={{
+                  pathname: '/components/Marketplace/Buy',
+                  query: items
+                }}>
+                  <Button variant="contained" className='w-8/12 bg-orange-500'>Buy</Button>
+                </Link>
+              :
+
+              <span className='text-black text-2xl font-bold'>You are the Owner</span>
+              
+              }
+              
             </div>
           </div>
 
