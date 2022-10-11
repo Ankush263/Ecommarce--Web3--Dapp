@@ -7,7 +7,7 @@ import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 
 function Buy() {
 
-  const deployAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+  const deployAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
   const [address, setAddress] = useState('')
   const [numberItems, setNumberItems] = useState(1)
   const [total, setTotal] = useState(1)
@@ -54,7 +54,7 @@ function Buy() {
     box: `w-8/12 h-4/5 flex items-center bg-slate-300/[.3] shadow-2xl border-stone-900 rounded-xl p-2 border-orange-500 border-2`,
     left: `h-full w-4/12 flex flex-col justify-center items-center bg-slate-300/[.3] shadow-2xl border-stone-900 rounded-xl border-orange-500 border-2`,
     imgBox: `w-44 h-44 bg-slate-300/[.3] shadow-2xl border-stone-900 rounded-xl border-orange-500 border-2`,
-    priceBox: `h-10 w-44 mt-5 bg-slate-900 shadow-2xl border-stone-900 rounded-xl pt-1 pl-2 border-orange-500 border-2 text-sm`,
+    priceBox: `min-h-10 w-44 mt-5 bg-slate-900 shadow-2xl border-stone-900 rounded-xl pt-1 pl-2 pb-2 border-orange-500 border-2 text-sm flex flex-col`,
     right: `h-3/6 w-8/12 flex flex-col justify-around items-center`,
     input1: `w-4/12 h-10 shadow-2xl border-stone-900 rounded-xl`,
     input2: `w-8/12 h-40 bg-slate-300/[.3] shadow-2xl border-stone-900 rounded-xl`,
@@ -68,9 +68,9 @@ function Buy() {
             <img src={`${data.img}`} className='w-full h-full rounded-xl' />
           </div>
           <div className={styles.priceBox}>
-            Price: {data.price} & Total: {total} eth
+            <span>Price: {data.price} & Total: {total} eth</span>
+            <span>Only {data.stocks} products left</span>
           </div>
-          <span>Only {data.stocks} products left</span>
         </div>
         <div className={styles.right}>
           <div className={styles.input1}>
