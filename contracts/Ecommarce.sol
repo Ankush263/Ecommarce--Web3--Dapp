@@ -22,7 +22,7 @@ contract Ecommarce{
 
   mapping(address => mapping(uint => address[])) public customerById;
 
-  mapping(address => string) public deliveryLocation;    // where the item should delivered
+  mapping(uint => mapping(address => string)) public deliveryLocation;    // where the item should delivered
 
   mapping(address => address[]) public myCustomers;
 
@@ -71,7 +71,7 @@ contract Ecommarce{
     require(_numberOfProducts > 0, "Please select how many products you want to buy");
     require(_numberOfProducts <= products[_productId-1].stocks, "You reach the product's stock limit");
     products[_productId-1].buyer.push(payable(msg.sender));
-    deliveryLocation[msg.sender] = _deliveryAddress;
+    deliveryLocation[_productId][msg.sender] = _deliveryAddress;
 
     myCustomers[products[_productId-1].seller] = products[_productId-1].buyer;
     // customers.push(products[_productId-1].buyer[products[_productId-1].buyer.length-1]);
