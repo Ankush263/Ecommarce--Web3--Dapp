@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
+// import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
+import ABI from '../../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
 
 function products(props: any) {
 
-  const deployAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+  const deployAddress = "0x6cA0AC66ed28b00c2bbae46a0a003f04a006983e"
 
   const [click, setClick] = useState(false)
 
