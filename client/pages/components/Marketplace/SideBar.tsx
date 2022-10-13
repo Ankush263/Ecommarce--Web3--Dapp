@@ -6,7 +6,7 @@ import artifacts from "../../../utils/Ecommarce.json";
 
 function SideBar() {
 
-  const deployedAddress: string = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+  const deployedAddress: string = "0x6cA0AC66ed28b00c2bbae46a0a003f04a006983e"
   const ABI: any = artifacts.abi
 
   const [walletAddress, getWalletAddress] = useState('')
