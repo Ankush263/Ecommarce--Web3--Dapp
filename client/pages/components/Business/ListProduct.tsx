@@ -3,16 +3,17 @@ import { ethers } from 'ethers'
 import React, { useState } from 'react'
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../pinata'
 import NavBar from './NavBarBusiness'
-import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
-// import ABI from '../../../utils/Ecommarce.json'
+// import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
+import ABI from '../../../utils/Ecommarce.json'
 
 function ListProduct() {
 
-  const deployAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+  const deployAddress = "0x6cA0AC66ed28b00c2bbae46a0a003f04a006983e"
 
   const [uploadImg, setUploadImg] = useState('')
   const [productDesc, setProductDesc] = useState({ title: '', desc: '', price: 0, stock: 0, img: '' })
   const [disabled, setDisabled] = useState(false)
+  const [uploadingMessage, setUploadingMessage] = useState('')
 
   const uploadFile = async (e: any) => {
     let file = e.target.files[0]
@@ -68,6 +69,8 @@ function ListProduct() {
       const address = await signer.getAddress()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
 
+      setUploadingMessage("Please wait... uploading takes about 1 mins")
+
       let price = ethers.utils.parseUnits(`${productDesc.price.toString()}`, 'ether')
       // let price = ethers.utils.parseEther(`${productDesc.price.toString()}`)
 
@@ -108,6 +111,7 @@ function ListProduct() {
       alert("Successfully list your product!!!")
       setUploadImg('')
       setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
+      setUploadingMessage('')
       setDisabled(false)
       window.location.replace('/components/Marketplace/HomePage')
 
@@ -205,6 +209,9 @@ function ListProduct() {
                   >
                     List Product
                   </Button>
+                  <div className="w-full flex justify-center items-center">
+                    <span className='text-black '>{uploadingMessage}</span>
+                  </div>
                 </div>
               </div>
             </div>
