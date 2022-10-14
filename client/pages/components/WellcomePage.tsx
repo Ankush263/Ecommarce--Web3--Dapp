@@ -46,13 +46,13 @@ function WellcomePage() {
             {/* <Link href="/components/Business/ListProduct"> */}
             <Link href="/components/Business/Home">
               <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500' disabled={!logedIn}>
-                Go For Business
+                <span>Go For Business</span>
                 <img src="/images/car_loading.PNG" className='w-20' />
               </Button>
             </Link>
             <Link href="/components/Marketplace/HomePage">
               <Button variant="contained" className='bg-gradient-to-r from-sky-500 to-indigo-500' disabled={!logedIn}>
-                Let's Shopping
+                <span>Let Shopping</span>
                 <img src="/images/shopping.PNG" className='w-20' />
               </Button>
             </Link>
