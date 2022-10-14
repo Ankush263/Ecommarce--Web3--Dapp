@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 
-function id() {
+function Id() {
 
   const [myAddress, setMyAddress] = useState('')
   const [myBal, setMyBal] = useState('')
@@ -104,4 +104,4 @@ function id() {
   )
 }
 
-export default id
+export default Id
