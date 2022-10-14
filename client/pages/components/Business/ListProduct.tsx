@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import { ethers } from 'ethers'
 import React, { useState } from 'react'
-import { uploadFileToIPFS, uploadJSONToIPFS } from '../../pinata'
+import { uploadFileToIPFS, uploadJSONToIPFS } from '../../api/pinata'
 import NavBar from './NavBarBusiness'
 // import ABI from '../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json'
 import ABI from '../../../utils/Ecommarce.json'
