@@ -98,7 +98,10 @@ const secret = process.env.NEXT_PUBLIC_PINATA_SECRET
 const axios = require('axios');
 const FormData = require('form-data');
 
-export const uploadJSONToIPFS = async(JSONBody) => {
+export const uploadJSONToIPFS = async(JSONBody: {
+        title: string; desc: string; price: number; stock: number; img: string; //           id: 'FRA1',
+        image: string;
+    }) => {
     const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
     //making axios POST request to Pinata ⬇️
     return axios 
@@ -108,13 +111,13 @@ export const uploadJSONToIPFS = async(JSONBody) => {
                 pinata_secret_api_key: secret,
             }
         })
-        .then(function (response) {
+        .then(function (response: { data: { IpfsHash: string; }; }) {
            return {
                success: true,
                pinataURL: "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash
            };
         })
-        .catch(function (error) {
+        .catch(function (error: { message: any; }) {
             console.log(error)
             return {
                 success: false,
@@ -124,7 +127,7 @@ export const uploadJSONToIPFS = async(JSONBody) => {
     });
 };
 
-export const uploadFileToIPFS = async(file) => {
+export const uploadFileToIPFS = async(file: any) => {
     const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
     //making axios POST request to Pinata ⬇️
     
@@ -166,14 +169,14 @@ export const uploadFileToIPFS = async(file) => {
                 pinata_secret_api_key: secret,
             }
         })
-        .then(function (response) {
+        .then(function (response: { data: { IpfsHash: string; }; }) {
             console.log("image uploaded", response.data.IpfsHash)
             return {
                success: true,
                pinataURL: "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash
            };
         })
-        .catch(function (error) {
+        .catch(function (error: { message: any; }) {
             console.log(error)
             return {
                 success: false,
