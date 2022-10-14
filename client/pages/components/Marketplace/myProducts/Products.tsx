@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import ABI from '../../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
 
-function products(props: any) {
+function Products(props: any) {
 
   const deployAddress = "0x6cA0AC66ed28b00c2bbae46a0a003f04a006983e"
 
@@ -57,4 +57,4 @@ function products(props: any) {
   )
 }
 
-export default products
+export default Products
