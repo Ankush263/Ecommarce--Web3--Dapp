@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 // import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
-import ABI from '../../../../utils/Ecommarce.json';
+import ABI from '../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
 import swal from 'sweetalert';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';

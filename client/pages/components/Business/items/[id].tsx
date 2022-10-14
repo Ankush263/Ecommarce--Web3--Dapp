@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Button from '@mui/material/Button';
 import { ethers } from 'ethers';
-import Address from './Address';
+import Address from '../Address';
 // import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import ABI from '../../../../utils/Ecommarce.json';
 
