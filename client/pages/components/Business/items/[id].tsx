@@ -8,7 +8,7 @@ import ABI from '../../../../utils/Ecommarce.json';
 
 
 
-function id() {
+function Id() {
   
   const router = useRouter()
   const data = router.query
@@ -51,7 +51,7 @@ function id() {
         </div>
         <div className="mt-4 w-full min-h-5/6 flex flex-col justify-between items-center">
           
-          <div id='addr' className="text-black text-2xl flex flex-col justify-center items-center mb-10 w-full">
+          <div className="text-black text-2xl flex flex-col justify-center items-center mb-10 w-full">
             <Button disabled={disable} onClick={test} variant="contained" className='mb-5 bg-orange-500'>Show My Customers</Button>
             {
               myCustomers.map((data, index) => {
@@ -66,4 +66,4 @@ function id() {
   )
 }
 
-export default id
+export default Id
