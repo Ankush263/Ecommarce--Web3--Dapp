@@ -22,15 +22,17 @@ function Id() {
   const test = async () => {
     setDisable(true)
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-
-      let allMyCustomers = await contract.ShowMyCustomersById(data.id)
-      setMyCustomers(allMyCustomers)
-
-      console.log(allMyCustomers)
-      setId(Number(data.id))
+      if(typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+  
+        let allMyCustomers = await contract.ShowMyCustomersById(data.id)
+        setMyCustomers(allMyCustomers)
+  
+        console.log(allMyCustomers)
+        setId(Number(data.id))
+      }
 
     } catch (error) {
       console.log(error)
