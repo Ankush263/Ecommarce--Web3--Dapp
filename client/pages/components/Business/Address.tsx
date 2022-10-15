@@ -5,9 +5,23 @@ import ABI from '../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
 import swal from 'sweetalert';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import { GetStaticProps } from 'next';
 
 
-function Address(props: any) {
+export const getStaticProps: GetStaticProps = async(contex) => {
+
+  return {
+    revalidate: 1,
+    props: {
+      id: 0,
+      data: null,
+    }
+  }
+
+}
+
+
+export default function Address(props: any) {
 
   const [delevered, setDeleverd] = useState(false)
 
@@ -44,5 +58,3 @@ function Address(props: any) {
     </div>
   )
 }
-
-export default Address
