@@ -29,34 +29,35 @@ function MyProducts() {
   
   const fatchedData = async() => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-      
-      let allMyProducts = await contract.getMyAllProduct();
-
-      const items: any = await Promise.all(allMyProducts.map(async (i: any) => {
-
-        let item = {
-          price: i.price,
-          productId: i.productId.toNumber(),
-          seller: i.seller,
-          buyer: i.buyer,
-          title: i.title,
-          desc: i.desc,
-          stocks: i.stocks,
-          img: i.img,
-          deliveryStart: i.deliveryStart,
-          deliveryEnd: i.deliveryEnd,
-          delevered: i.delevered,
-        }
-        return item
-      }))
-
-      setData(items)
-
-      setFatch(true)
-      console.log("data: ", data)
+      if(typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+        
+        let allMyProducts = await contract.getMyAllProduct();
+  
+        const items: any = await Promise.all(allMyProducts.map(async (i: any) => {
+  
+          let item = {
+            price: i.price,
+            productId: i.productId.toNumber(),
+            seller: i.seller,
+            buyer: i.buyer,
+            title: i.title,
+            desc: i.desc,
+            stocks: i.stocks,
+            img: i.img,
+            deliveryStart: i.deliveryStart,
+            deliveryEnd: i.deliveryEnd,
+            delevered: i.delevered,
+          }
+          return item
+        }))
+  
+        setData(items)
+  
+        setFatch(true)
+      }
 
 
     } catch (error) {
