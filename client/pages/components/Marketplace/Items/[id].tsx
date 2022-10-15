@@ -13,16 +13,17 @@ function Id() {
   const [myBal, setMyBal] = useState('')
 
   const fatch = async () => {
+    if(typeof window.ethereum !== 'undefined') {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const addr = await signer.getAddress()
+      const Balance = await provider.getBalance(addr)
+      const balance = await ethers.utils.formatEther(Balance)
+      const bal = balance.slice(0, 8)
+      setMyAddress(addr)
+      setMyBal(bal)
+    }
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const addr = await signer.getAddress()
-    const Balance = await provider.getBalance(addr)
-    const balance = await ethers.utils.formatEther(Balance)
-    const bal = balance.slice(0, 8)
-    setMyAddress(addr)
-    setMyBal(bal)
-    console.log(bal)
   }
 
   useEffect(() => {
