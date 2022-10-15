@@ -16,17 +16,19 @@ function Address(props: any) {
   const showAddress = async (addr: any) => {
 
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-
-      // let sendAddress = await contract.deliveryLocation(addr)
-      let sendAddress = await contract.deliveryLocation(props.id, addr)
-
-      swal(sendAddress);
-
-      let delevery = await contract.delevery(props.id, addr)
-      setDeleverd(delevery)
+      if(typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+  
+        // let sendAddress = await contract.deliveryLocation(addr)
+        let sendAddress = await contract.deliveryLocation(props.id, addr)
+  
+        swal(sendAddress);
+  
+        let delevery = await contract.delevery(props.id, addr)
+        setDeleverd(delevery)
+      }
 
     } catch (error) {
       console.log(error)
