@@ -5,7 +5,7 @@ import React from 'react'
 function ItemCard(props: any) {
 
   const stocks = () => {
-    console.log(props.data.price)
+    console.log(props.data.img)
   }
 
   const data = {

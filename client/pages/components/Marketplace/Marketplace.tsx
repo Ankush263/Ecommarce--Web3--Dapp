@@ -31,35 +31,38 @@ function Marketplace() {
   const getAllData = async () => {
     
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const address = await signer.getAddress()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-
-      let allProducts = await contract.getAllProducts()
-
-      const items: any = await Promise.all(allProducts.map(async (i: any) => {
-
-        // let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
-        let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
-        // let price = ethers.utils.formatEther((i.price))
-        console.log(i.productId.toNumber())
-        let item = {
-          price,
-          // price: i.price.toString(),
-          productId: i.productId.toNumber(),
-          seller: i.seller,
-          buyer: i.buyer,
-          title: i.title,
-          desc: i.desc,
-          stocks: i.stocks,
-          img: i.img,
-        }
-        return item
-      }))
-
-      updateData(items)
-      updateDataFatched(true)
+      if(typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const address = await signer.getAddress()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+  
+        let allProducts = await contract.getAllProducts()
+  
+        const items: any = await Promise.all(allProducts.map(async (i: any) => {
+  
+          // let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
+          let price = ethers.utils.formatUnits((i.price).toString(), 'ether')
+          // let price = ethers.utils.formatEther((i.price))
+          console.log(i.img)
+          let item = {
+            price,
+            // price: i.price.toString(),
+            productId: i.productId.toNumber(),
+            seller: i.seller,
+            buyer: i.buyer,
+            title: i.title,
+            desc: i.desc,
+            stocks: i.stocks,
+            img: typeof i.img !== 'undefined' ? i.img : '',
+          }
+          return item
+        }))
+  
+        updateData(items)
+        updateDataFatched(true)
+        // console.log("data: ", data[0].img)
+      }
 
 
     } catch (error) {
