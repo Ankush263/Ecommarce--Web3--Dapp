@@ -62,58 +62,60 @@ function ListProduct() {
     e.preventDefault()
 
     try {
+      if(typeof window.ethereum !== 'undefined') {
+        const metadataURL = await uploadMetadataToIPFS()
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const address = await signer.getAddress()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+  
+        setUploadingMessage("Please wait... uploading takes about 1 mins")
+  
+        let price = ethers.utils.parseUnits(`${productDesc.price.toString()}`, 'ether')
+        // let price = ethers.utils.parseEther(`${productDesc.price.toString()}`)
+  
+  
+        // const price = productDesc.price.toString()
+  
+        
+        // console.log("wei Price: ", price.toString())
+        console.log("BigNumber : ", price)
+        console.log("Real Price: ", price.toString())
+  
+        console.log("Change: ", ethers.utils.formatEther(price))
+  
+  
+  
+  
+  
+        // let myProducts = await contract.getAllMyListedProducts()
+        // console.log(myProducts[0].price.toString())
+  
+  
+  
+  
+  
+  
+        let listingPrice = await contract.listPrice()
+        listingPrice = listingPrice.toString()
+  
+        let transaction = await contract.registerProduct(
+          productDesc.title,
+          productDesc.desc,
+          price,
+          productDesc.stock,
+          uploadImg,
+          { value: listingPrice }
+        )
+        await transaction.wait()
+        alert("Successfully list your product!!!")
+        setUploadImg('')
+        setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
+        setUploadingMessage('')
+        setDisabled(false)
+        window.location.replace('/components/Marketplace/HomePage')
+      }
 
-      const metadataURL = await uploadMetadataToIPFS()
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const address = await signer.getAddress()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-
-      setUploadingMessage("Please wait... uploading takes about 1 mins")
-
-      let price = ethers.utils.parseUnits(`${productDesc.price.toString()}`, 'ether')
-      // let price = ethers.utils.parseEther(`${productDesc.price.toString()}`)
-
-
-      // const price = productDesc.price.toString()
-
-      
-      // console.log("wei Price: ", price.toString())
-      console.log("BigNumber : ", price)
-      console.log("Real Price: ", price.toString())
-
-      console.log("Change: ", ethers.utils.formatEther(price))
-
-
-
-
-
-      // let myProducts = await contract.getAllMyListedProducts()
-      // console.log(myProducts[0].price.toString())
-
-
-
-
-
-
-      let listingPrice = await contract.listPrice()
-      listingPrice = listingPrice.toString()
-
-      let transaction = await contract.registerProduct(
-        productDesc.title,
-        productDesc.desc,
-        price,
-        productDesc.stock,
-        uploadImg,
-        { value: listingPrice }
-      )
-      await transaction.wait()
-      alert("Successfully list your product!!!")
-      setUploadImg('')
-      setProductDesc({ title: '', desc: '', price: 0, stock: 0, img: '' })
-      setUploadingMessage('')
-      setDisabled(false)
-      window.location.replace('/components/Marketplace/HomePage')
 
     } catch (error) {
       alert("Upload Error: "+error)
