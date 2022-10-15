@@ -18,6 +18,7 @@ function Products(props: any) {
   
   const delivered = async () => {
   try {
+    if(typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
@@ -26,6 +27,7 @@ function Products(props: any) {
       await transaction.wait()
       alert('Your Order is delivered to you!!!')
       window.location.replace('/components/Marketplace/HomePage')
+    }
       
     } catch (error) {
       console.log(error)
@@ -41,7 +43,7 @@ function Products(props: any) {
   return (
     <div className={styles.productBox}>
       <div className={styles.imgBox}>
-        <img src={props.data.img} className='w-full h-full rounded-xl' />
+        <img src={typeof props.data.img !== 'undefined' && props.data.img} className='w-full h-full rounded-xl' />
       </div>
       {!props.data.delevered ? <span className='text-2xl text-black text-bold'>
         Order delivered in {(Number(props.data.deliveryEnd) - Number(props.data.deliveryStart)) / 86400} Days
