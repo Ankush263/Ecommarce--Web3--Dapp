@@ -31,39 +31,38 @@ function ListedProducts() {
 
   const getItems = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const address = await signer.getAddress()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-
-      let allProducts = await contract.getAllMyListedProducts()
-
-      // let p = allProducts[0].price.toString()
-      // console.log(ethers.utils.formatEther(p).toString())
-
-      const items: any = await Promise.all(allProducts.map(async (i: any) => {
-
-        let price = ethers.utils.formatEther((i.price).toString())
-
-        console.log("i.price: ", i.price.toString())
-        console.log("price: ", price.toString())
-        
-        let item = {
-          price,
-          productId: i.productId.toNumber(),
-          seller: i.seller,
-          buyer: i.buyer,
-          title: i.title,
-          desc: i.desc,
-          stocks: i.stocks,
-          img: i.img,
-          delevered: i.delevered,
-        }
-        return item
-      }))
-
-      updateData(items)
-      updateDataFatched(true)
+      if(typeof window.ethereum !== 'undefined') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const address = await signer.getAddress()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+  
+        let allProducts = await contract.getAllMyListedProducts()
+  
+        // let p = allProducts[0].price.toString()
+        // console.log(ethers.utils.formatEther(p).toString())
+  
+        const items: any = await Promise.all(allProducts.map(async (i: any) => {
+  
+          let price = ethers.utils.formatEther((i.price).toString())
+          
+          let item = {
+            price,
+            productId: i.productId.toNumber(),
+            seller: i.seller,
+            buyer: i.buyer,
+            title: i.title,
+            desc: i.desc,
+            stocks: i.stocks,
+            img: i.img,
+            delevered: i.delevered,
+          }
+          return item
+        }))
+  
+        updateData(items)
+        updateDataFatched(true)
+      }
 
     } catch (error) {
       console.log(error)
