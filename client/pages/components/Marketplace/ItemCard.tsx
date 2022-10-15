@@ -1,8 +1,24 @@
 import { ethers } from 'ethers'
+import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import React from 'react'
 
-function ItemCard(props: any) {
+export const getStaticProps: GetStaticProps = async(contex) => {
+  return {
+    revalidate: 1,
+    props: {
+      img: '',
+      title: '',
+      desc: '',
+      seller: '',
+      stocks: 0,
+      price: 0,
+      id: 0,
+    }
+  }
+}
+
+export default function ItemCard(props: any) {
 
   const stocks = () => {
     console.log(props.data.img)
@@ -46,5 +62,3 @@ function ItemCard(props: any) {
     </div>
   )
 }
-
-export default ItemCard

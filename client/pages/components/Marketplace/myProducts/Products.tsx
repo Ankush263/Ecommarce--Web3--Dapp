@@ -3,8 +3,21 @@ import Button from '@mui/material/Button';
 // import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import ABI from '../../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
+import { GetStaticProps } from 'next';
 
-function Products(props: any) {
+export const getStaticProps: GetStaticProps = async(contex) => {
+  return {
+    revalidate: 1,
+    props: {
+      productId: 0,
+      delevered: false,
+      deliveryStart: '',
+      deliveryEnd: ''
+    }
+  }
+}
+
+export default function Products(props: any) {
 
   const deployAddress = "0x6cA0AC66ed28b00c2bbae46a0a003f04a006983e"
 
@@ -58,5 +71,3 @@ function Products(props: any) {
     </div>
   )
 }
-
-export default Products
