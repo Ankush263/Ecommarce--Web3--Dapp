@@ -11,10 +11,10 @@ import { GetStaticProps } from 'next';
 export const getStaticProps: GetStaticProps = async(contex) => {
 
   return {
-    revalidate: 1,
+    revalidate: 5,
     props: {
-      id: 0,
-      data: null,
+      id: 1,
+      data: '',
     }
   }
 

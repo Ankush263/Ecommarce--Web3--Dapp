@@ -6,13 +6,13 @@ import { GetStaticProps } from 'next';
 
 export const getStaticProps: GetStaticProps = async(contex) => {
   return {
-    revalidate: 1,
+    revalidate: 5,
     props: {
       img: '',
       title: '',
       seller: '',
       buyer: '',
-      id: 0,
+      id: 1,
       delevered: false
     }
   }

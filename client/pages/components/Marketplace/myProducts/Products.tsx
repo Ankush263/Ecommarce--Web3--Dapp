@@ -7,7 +7,7 @@ import { GetStaticProps } from 'next';
 
 export const getStaticProps: GetStaticProps = async(contex) => {
   return {
-    revalidate: 1,
+    revalidate: 5,
     props: {
       productId: 0,
       delevered: false,

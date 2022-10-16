@@ -5,7 +5,7 @@ import React from 'react'
 
 export const getStaticProps: GetStaticProps = async(contex) => {
   return {
-    revalidate: 1,
+    revalidate: 5,
     props: {
       img: '',
       title: '',
