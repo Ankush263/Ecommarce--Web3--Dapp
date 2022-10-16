@@ -31,7 +31,7 @@ function Marketplace() {
   const getAllData = async () => {
     
     try {
-      if(typeof window.ethereum !== 'undefined') {
+      if(typeof window !== 'undefined') {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
         const address = await signer.getAddress()

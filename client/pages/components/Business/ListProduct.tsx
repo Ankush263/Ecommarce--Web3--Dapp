@@ -62,7 +62,7 @@ function ListProduct() {
     e.preventDefault()
 
     try {
-      if(typeof window.ethereum !== 'undefined') {
+      if(typeof window !== 'undefined') {
         const metadataURL = await uploadMetadataToIPFS()
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()

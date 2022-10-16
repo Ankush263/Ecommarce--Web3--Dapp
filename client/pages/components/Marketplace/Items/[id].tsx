@@ -13,7 +13,7 @@ function Id() {
   const [myBal, setMyBal] = useState('')
 
   const fatch = async () => {
-    if(typeof window.ethereum !== 'undefined') {
+    if(typeof window !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const addr = await signer.getAddress()

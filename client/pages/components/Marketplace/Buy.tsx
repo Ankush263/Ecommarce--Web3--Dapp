@@ -24,26 +24,28 @@ function Buy() {
   const buy = async () => {
     setClick(true)
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
-
-      const amount = ((Number(data.price) * numberItems)).toString()
-
-      console.log(amount)
-
-      let transaction = await contract.buy(
-        Number(data.id), 
-        address, 
-        Number(numberItems), 
-        { value: ethers.utils.parseUnits(amount, 'ether') })
-      await transaction.wait()
-      alert("Successfully buy product!!!")
-      setAddress('')
-      setNumberItems(1)
-      setTotal(1)
-      window.location.replace('/components/Marketplace/myProducts/MyProducts')
-      setClick(false)
+      if(typeof window !== "undefined") {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(deployAddress, ABI.abi, signer)
+  
+        const amount = ((Number(data.price) * numberItems)).toString()
+  
+        console.log(amount)
+  
+        let transaction = await contract.buy(
+          Number(data.id), 
+          address, 
+          Number(numberItems), 
+          { value: ethers.utils.parseUnits(amount, 'ether') })
+        await transaction.wait()
+        alert("Successfully buy product!!!")
+        setAddress('')
+        setNumberItems(1)
+        setTotal(1)
+        window.location.replace('/components/Marketplace/myProducts/MyProducts')
+        setClick(false)
+      }
         
     } catch (error) {
       console.log(error)
