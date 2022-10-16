@@ -13,8 +13,8 @@ export const getStaticProps: GetStaticProps = async(contex) => {
   return {
     revalidate: 5,
     props: {
-      id: 1,
-      data: '',
+      id: null,
+      data: null,
     }
   }
 

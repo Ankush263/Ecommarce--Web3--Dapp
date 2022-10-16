@@ -8,14 +8,23 @@ export const getStaticProps: GetStaticProps = async(contex) => {
     revalidate: 5,
     props: {
       data: {
-        img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-        title: '',
-        desc: '',
-        seller: '',
-        stocks: 0,
-        price: 0,
-        id: 0,
+        img: null,
+        title: null,
+        desc: null,
+        seller: null,
+        stocks: null,
+        price: null,
+        id: null,
       }
+      // data: {
+      //   img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+      //   title: '',
+      //   desc: '',
+      //   seller: '',
+      //   stocks: 0,
+      //   price: 0,
+      //   id: 0,
+      // }
     }
   }
 }
