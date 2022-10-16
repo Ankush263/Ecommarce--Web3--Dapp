@@ -1,11 +1,10 @@
 import { ethers } from 'ethers'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps, GetStaticProps } from 'next'
 import Link from 'next/link'
 import React from 'react'
 
-export const getStaticProps: GetStaticProps = async(contex) => {
+export const getServerSideProps: GetServerSideProps = async(contex) => {
   return {
-    revalidate: 5,
     props: {
       data: {
         img: null,
@@ -16,18 +15,25 @@ export const getStaticProps: GetStaticProps = async(contex) => {
         price: null,
         id: null,
       }
-      // data: {
-      //   img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      //   title: '',
-      //   desc: '',
-      //   seller: '',
-      //   stocks: 0,
-      //   price: 0,
-      //   id: 0,
-      // }
     }
   }
 }
+// export const getStaticProps: GetStaticProps = async(contex) => {
+//   return {
+//     revalidate: 5,
+//     props: {
+//       data: {
+//         img: null,
+//         title: null,
+//         desc: null,
+//         seller: null,
+//         stocks: null,
+//         price: null,
+//         id: null,
+//       }
+//     }
+//   }
+// }
 
 export default function ItemCard(props: any) {
 

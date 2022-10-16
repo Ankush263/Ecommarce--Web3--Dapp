@@ -3,11 +3,10 @@ import Button from '@mui/material/Button';
 // import ABI from '../../../../../artifacts/contracts/Ecommarce.sol/Ecommarce.json';
 import ABI from '../../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 
-export const getStaticProps: GetStaticProps = async(contex) => {
+export const getServerSideProps: GetServerSideProps = async(contex) => {
   return {
-    revalidate: 5,
     props: {
       data: {
         img: null,
@@ -16,16 +15,23 @@ export const getStaticProps: GetStaticProps = async(contex) => {
         deliveryStart: null,
         deliveryEnd: null
       }
-      // data: {
-      //   img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
-      //   productId: 1,
-      //   delevered: false,
-      //   deliveryStart: '',
-      //   deliveryEnd: ''
-      // }
     }
   }
 }
+// export const getStaticProps: GetStaticProps = async(contex) => {
+//   return {
+//     revalidate: 5,
+//     props: {
+//       data: {
+//         img: null,
+//         productId: null,
+//         delevered: false,
+//         deliveryStart: null,
+//         deliveryEnd: null
+//       }
+//     }
+//   }
+// }
 
 export default function Products(props: any) {
 

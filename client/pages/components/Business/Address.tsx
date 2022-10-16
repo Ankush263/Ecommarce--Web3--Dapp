@@ -5,13 +5,12 @@ import ABI from '../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
 import swal from 'sweetalert';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 
 
-export const getStaticProps: GetStaticProps = async(contex) => {
+export const getServerSideProps: GetServerSideProps = async(contex) => {
 
   return {
-    revalidate: 5,
     props: {
       id: null,
       data: null,
@@ -19,6 +18,18 @@ export const getStaticProps: GetStaticProps = async(contex) => {
   }
 
 }
+
+// export const getStaticProps: GetStaticProps = async(contex) => {
+
+//   return {
+//     revalidate: 5,
+//     props: {
+//       id: null,
+//       data: null,
+//     }
+//   }
+
+// }
 
 
 export default function Address(props: any) {
