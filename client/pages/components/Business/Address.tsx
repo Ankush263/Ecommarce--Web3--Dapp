@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps = async(contex) => {
 
   return {
     props: {
-      id: null,
+      id: 1,
       data: null,
     }
   }

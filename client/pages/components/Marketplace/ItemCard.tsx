@@ -7,13 +7,13 @@ export const getServerSideProps: GetServerSideProps = async(contex) => {
   return {
     props: {
       data: {
-        img: null,
-        title: null,
-        desc: null,
-        seller: null,
-        stocks: null,
-        price: null,
-        id: null,
+        img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+        title: "",
+        desc: "",
+        seller: "",
+        stocks: 0,
+        price: '8',
+        id: 1,
       }
     }
   }
