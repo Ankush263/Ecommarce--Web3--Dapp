@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/pinata.ts", "pages/components/Business/items/[id].jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/pinata.ts", "pages/components/Business/items/[id].jsx"],
   "exclude": ["node_modules"]
 }
