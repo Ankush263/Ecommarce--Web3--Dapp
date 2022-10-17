@@ -3,8 +3,24 @@ import { GetServerSideProps, GetStaticProps } from 'next'
 import Link from 'next/link'
 import React from 'react'
 
-export const getServerSideProps: GetServerSideProps = async(contex) => {
+// export const getServerSideProps: GetServerSideProps = async(contex) => {
+//   return {
+//     props: {
+//       data: {
+//         img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+//         title: "",
+//         desc: "",
+//         seller: "",
+//         stocks: 0,
+//         price: '8',
+//         id: 1,
+//       }
+//     }
+//   }
+// }
+export const getStaticProps: GetStaticProps = async(contex) => {
   return {
+    revalidate: 5,
     props: {
       data: {
         img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
@@ -18,22 +34,6 @@ export const getServerSideProps: GetServerSideProps = async(contex) => {
     }
   }
 }
-// export const getStaticProps: GetStaticProps = async(contex) => {
-//   return {
-//     revalidate: 5,
-//     props: {
-//       data: {
-//         img: null,
-//         title: null,
-//         desc: null,
-//         seller: null,
-//         stocks: null,
-//         price: null,
-//         id: null,
-//       }
-//     }
-//   }
-// }
 
 export default function ItemCard(props: any) {
 

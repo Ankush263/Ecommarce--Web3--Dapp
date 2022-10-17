@@ -8,9 +8,21 @@ import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import { GetServerSideProps, GetStaticProps } from 'next';
 
 
-export const getServerSideProps: GetServerSideProps = async(contex) => {
+// export const getServerSideProps: GetServerSideProps = async(contex) => {
+
+//   return {
+//     props: {
+//       id: 1,
+//       data: null,
+//     }
+//   }
+
+// }
+
+export const getStaticProps: GetStaticProps = async(contex) => {
 
   return {
+    revalidate: 5,
     props: {
       id: 1,
       data: null,
@@ -18,18 +30,6 @@ export const getServerSideProps: GetServerSideProps = async(contex) => {
   }
 
 }
-
-// export const getStaticProps: GetStaticProps = async(contex) => {
-
-//   return {
-//     revalidate: 5,
-//     props: {
-//       id: null,
-//       data: null,
-//     }
-//   }
-
-// }
 
 
 export default function Address(props: any) {

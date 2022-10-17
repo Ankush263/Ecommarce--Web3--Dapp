@@ -5,8 +5,22 @@ import ABI from '../../../../utils/Ecommarce.json';
 import { ethers } from 'ethers';
 import { GetServerSideProps, GetStaticProps } from 'next';
 
-export const getServerSideProps: GetServerSideProps = async(contex) => {
+// export const getServerSideProps: GetServerSideProps = async(contex) => {
+//   return {
+//     props: {
+//       data: {
+//         img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
+//         productId: 1,
+//         delevered: false,
+//         deliveryStart: "",
+//         deliveryEnd: ""
+//       }
+//     }
+//   }
+// }
+export const getStaticProps: GetStaticProps = async(contex) => {
   return {
+    revalidate: 5,
     props: {
       data: {
         img: "https://www.domusweb.it/content/dam/domusweb/en/news/2021/05/13/how-to-mint-your-own-nft-in-5-simple-steps/nft.jpg.foto.rbig.jpg",
@@ -18,20 +32,6 @@ export const getServerSideProps: GetServerSideProps = async(contex) => {
     }
   }
 }
-// export const getStaticProps: GetStaticProps = async(contex) => {
-//   return {
-//     revalidate: 5,
-//     props: {
-//       data: {
-//         img: null,
-//         productId: null,
-//         delevered: false,
-//         deliveryStart: null,
-//         deliveryEnd: null
-//       }
-//     }
-//   }
-// }
 
 export default function Products(props: any) {
 
